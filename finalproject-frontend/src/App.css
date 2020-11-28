@@ -1,38 +1,114 @@
 .App {
-  text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  font-size: 35px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h2 {
+  font-size: 30px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+h3 {
+  font-size: 25px;
+}
+
+p {
+  font-size: 20px;
+}
+
+/*-- HEADER --*/
+
+.HeaderContainer {
+  max-width: 100%;
+  height: 80px;
+  box-shadow: 2px 0px 10px 2px #888888;
+  margin-bottom: 20px;
+}
+
+header {
+  padding: 6px 20px 0 20px;
+  max-width: 1000px;
+  margin: 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+header h1 {
+  font-size: 35px;
+  padding-top: 10px;
+  margin: 0 auto;
+  flex-basis: 50%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header nav {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto;
+  flex-basis: 50%;
+}
+
+header nav a {
+  font-size: 35px;
+  color: black;
+  display: block;
+  margin: 10px;
+}
+
+/*-- HOME --*/
+
+.Home {
+  max-width: 1000px;
+  padding: 0 20px 0 20px;
+  margin: 0 auto;
+}
+
+.Post {
+  max-width: 1000px;
+  height: 400px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+}
+
+.Post .Column1 {
+  padding: 0;
+  flex-basis: 60%;
+}
+
+.Map-Container {
+  background-color: grey;
+  border-radius: 5px;
+  height: 400px;
+  max-width: 1080px;
+  -webkit-transform: translate3d(0px, 0px, 0px);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.Post .Column2 {
+  padding-top: 0px;
+  padding-left: 20px;
+  flex-basis: 40%;
+}
+
+.Post .Column2 h2 {
+  margin: 0;
+}
+
+.Stat {
+  display: flex;
+  flex-direction: row;
+  margin: 10px 0 10px 0;
+}
+
+.Stat * {
+  padding-right: 10px;
+  margin: 0;
+}
+
+.Stat .Icon {
+  font-size: 25px;
 }
