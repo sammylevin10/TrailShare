@@ -16,7 +16,7 @@ function Header() {
           <a href="/">
             <FontAwesomeIcon icon={faHome} />
           </a>
-          <a href="/compose-post">
+          <a href="/select-activity">
             <FontAwesomeIcon icon={faEdit} />
           </a>
           <a href="/user-profile">

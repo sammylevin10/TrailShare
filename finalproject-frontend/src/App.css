@@ -101,7 +101,7 @@ header nav a {
 .Stat {
   display: flex;
   flex-direction: row;
-  margin: 10px 0 10px 0;
+  margin: 10px 30px 10px 0;
 }
 
 .Stat * {
@@ -111,4 +111,91 @@ header nav a {
 
 .Stat .Icon {
   font-size: 25px;
+}
+
+/*--- User Profile ---*/
+
+.UserProfile {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 0 20px;
+}
+
+.StatBar {
+  display: flex;
+  flex-direction: row;
+  margin: 20px 0 20px 0;
+}
+
+button {
+  background-color: #c2c2c2;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 25px;
+  border-radius: 30px;
+}
+
+button:hover {
+  background-color: #888888;
+}
+
+/*--- Select Activity ---*/
+
+.SelectActivity {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 20px 0 20px;
+}
+
+.StravaActivity {
+  max-width: 1000px;
+  /* height: 40px; */
+  margin: 0 auto;
+  margin-bottom: 20px;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: row;
+}
+
+.StravaActivity:hover {
+  background-color: #c2c2c2;
+}
+
+.StravaActivityButton {
+  margin: 0;
+  padding: 0;
+  color: black;
+  text-decoration: none;
+}
+
+.StravaActivity .Column1 {
+  flex-basis: 50%;
+}
+
+.StravaActivity .Column1 * {
+  margin: 0;
+}
+
+.StravaActivity .Column2 {
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-basis: 50%;
+}
+
+.StravaActivity .Column2 * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.StravaActivity .Column2 .StatBar div {
+  margin-left: 20px;
+  margin-right: 0;
 }
