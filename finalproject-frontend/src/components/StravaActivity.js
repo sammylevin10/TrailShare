@@ -8,7 +8,7 @@ import {
 
 function StravaActivity() {
   return (
-    <a className="StravaActivityButton" href="/create-post">
+    <a className="StravaActivityButton" href="/compose-post">
       <div className="StravaActivity">
         <div className="Column1">
           <h2>Title of Activity</h2>

@@ -1,9 +1,11 @@
 import React from "react";
+import PostForm from "../components/PostForm";
 
 function ComposePost() {
   return (
     <div className="ComposePost">
-      <h1>ComposePost</h1>
+      <h2>Share "Strava Activity" with your locality</h2>
+      <PostForm />
     </div>
   );
 }

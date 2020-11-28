@@ -1,9 +1,12 @@
 import React from "react";
+import LoginForm from "../components/LoginForm";
 
 function Login() {
   return (
     <div className="Login">
-      <h1>Login</h1>
+      <button>Create a new TrailShare account</button>
+      <h2>Or log in to your existing account:</h2>
+      <LoginForm />
     </div>
   );
 }
