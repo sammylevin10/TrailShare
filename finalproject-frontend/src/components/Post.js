@@ -16,8 +16,8 @@ function Post({ data }) {
             {center !== null && (
               <GoogleMapReact
                 bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
-                defaultCenter={center}
-                defaultZoom={13}
+                defaultCenter={{ lat: data.lat, lng: data.lng }}
+                defaultZoom={14}
                 // Custom styling for the map, set to the color scheme of the website
                 options={{
                   styles: require(`../components/MapStyle.json`),
