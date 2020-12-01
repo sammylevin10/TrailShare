@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 import firebase from "firebase/app";
-// import express from "express";
+import firestore from "firebase/firestore";
 import "./App.css";
 // Pages
 import ComposePost from "./containers/ComposePost";
@@ -13,52 +13,36 @@ import UserProfile from "./containers/UserProfile";
 // Components
 import Header from "./components/Header";
 
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: "trailshare-dynamic-web.firebaseapp.com",
+  databaseURL: "https://trailshare-dynamic-web.firebaseio.com",
+  projectId: "trailshare-dynamic-web",
+  storageBucket: "trailshare-dynamic-web.appspot.com",
+  messagingSenderId: "595195663103",
+  appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
+};
+
 function App() {
-  // const router = express.Router();
-  // // Initialize firestore database
-  // const db = firebase.firestore();
-  // // Reference a specific collection
-  // const posts = db.collection("posts");
-
-  // const firebaseConfig = {
-  //   apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  //   authDomain: "trailshare-dynamic-web.firebaseapp.com",
-  //   databaseURL: "https://trailshare-dynamic-web.firebaseio.com",
-  //   projectId: "trailshare-dynamic-web",
-  //   storageBucket: "trailshare-dynamic-web.appspot.com",
-  //   messagingSenderId: "595195663103",
-  //   appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
-  // };
-
-  // router.get("/:test1", (req, res) => {
-  //   // Get the query parameter from the url and set it to a variable
-  //   const queryId = "test1";
-  //   // Query the collection
-  //   posts
-  //     .doc(queryId) //Look up doc by id
-  //     .get()
-  //     .then(function (doc) {
-  //       if (doc.exists) {
-  //         return res.send(doc.data());
-  //       } else {
-  //         return res.send("No document exists");
-  //       }
-  //     })
-  //     .catch(function (error) {
-  //       return res.send(error);
-  //     });
-  // });
-
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   // If there are no firebase apps, initialize the app
-  //   if (!firebase.apps.length) {
-  //     // Initializes firebase
-  //     firebase.initializeApp(firebaseConfig);
-  //   }
-  // }, [firebaseConfig]);
+  useEffect(() => {
+    // If there are no firebase apps, initialize the app
+    if (!firebase.apps.length) {
+      // Initializes firebase
+      firebase.initializeApp(firebaseConfig);
+    }
+  }, []);
+
+  // firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const posts = db.collection("posts");
+
+  posts.get().then((querySnapshot) => {
+    const data = querySnapshot.docs.map((doc) => doc.data());
+    console.log(data);
+  });
 
   return (
     <div className="App">
