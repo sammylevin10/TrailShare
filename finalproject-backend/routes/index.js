@@ -15,7 +15,7 @@ const sampleJSON = [
 ];
 
 router.get("/", (req, res) => {
-  res.send(sampleJSON);
+  res.send("Hello");
 });
 
 module.exports = router;
