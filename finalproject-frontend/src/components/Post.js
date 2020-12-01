@@ -3,7 +3,7 @@ import GoogleMapReact from "google-map-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag, faHeart } from "@fortawesome/free-solid-svg-icons";
 
-function Post() {
+function Post({ data }) {
   const [center, setCenter] = useState({
     lat: 59.95,
     lng: 30.33,
@@ -28,20 +28,16 @@ function Post() {
         </div>
       </div>
       <div className="Column2">
-        <h2>Title of Post</h2>
-        <h3>Firstname Lastname</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-          volutpat tincidunt magna, ut posuere orci luctus vel. Curabitur congue
-          lacus egestas dolor bibendum, sit amet interdum ligula dignissim.
-        </p>
+        <h2>{data.title}</h2>
+        <h3>{data.author}</h3>
+        <p>{data.description}</p>
         <div className="Stat">
           <FontAwesomeIcon className="Icon" icon={faFlag} />
-          <p>00.0 mi</p>
+          <p>{data.distance + " mi"}</p>
         </div>
         <div className="Stat">
           <FontAwesomeIcon className="Icon" icon={faHeart} />
-          <p>0 likes</p>
+          <p>{data.likes + " likes"}</p>
         </div>
       </div>
     </div>

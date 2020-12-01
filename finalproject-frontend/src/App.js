@@ -26,23 +26,21 @@ const firebaseConfig = {
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [postsArray, setPostsArray] = useState(null);
 
-  useEffect(() => {
-    // If there are no firebase apps, initialize the app
-    if (!firebase.apps.length) {
-      // Initializes firebase
-      firebase.initializeApp(firebaseConfig);
-    }
-  }, []);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
 
-  // firebase.initializeApp(firebaseConfig);
   const db = firebase.firestore();
   const posts = db.collection("posts");
 
-  posts.get().then((querySnapshot) => {
-    const data = querySnapshot.docs.map((doc) => doc.data());
-    console.log(data);
-  });
+  useEffect(() => {
+    posts.get().then((querySnapshot) => {
+      const data = querySnapshot.docs.map((doc) => doc.data());
+      setPostsArray(data);
+    });
+  }, [db]);
 
   return (
     <div className="App">
@@ -56,7 +54,7 @@ function App() {
             <CreateAccount />
           </Route>
           <Route exact path="/">
-            <Home />
+            <Home postsArray={postsArray} />
           </Route>
           <Route exact path="/login">
             <Login />
