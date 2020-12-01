@@ -1,9 +1,6 @@
-// import React from "react";
-import Post from "../components/Post";
-
-// CLASS CODE
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Post from "../components/Post";
 
 function Home({ postsArray }) {
   const [sampleAPIData, setSampleAPIData] = useState([]);
@@ -14,17 +11,13 @@ function Home({ postsArray }) {
       .then(function (response) {
         if (response.data) {
           setSampleAPIData(response.data);
-          if (sampleAPIData) {
-            console.log("Sample API DATA", { sampleAPIData });
-          }
+          console.log("sampleAPIData State Variable: ", sampleAPIData);
         }
       })
       .catch(function (error) {
         console.log("error", error);
       });
   }, []);
-
-  // END CLASS CODE
 
   if (postsArray) {
     console.log("at home", postsArray);
