@@ -2,9 +2,23 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 4000;
-const indexRoute = require("./routes/index.js");
 
 //HERES WHERE YOU ADD FIREBASE LIKE EX4
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: "trailshare-dynamic-web.firebaseapp.com",
+  databaseURL: "https://trailshare-dynamic-web.firebaseio.com",
+  projectId: "trailshare-dynamic-web",
+  storageBucket: "trailshare-dynamic-web.appspot.com",
+  messagingSenderId: "595195663103",
+  appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
+};
+//Firebase connection
+const firebase = require("firebase");
+firebase.initializeApp(firebaseConfig);
+
+//Routes import
+const indexRoute = require("./routes/index.js");
 
 // ADD MORE ROUTES FOR GET/SUBMIT LIKE EX4
 app.use(function (req, res, next) {

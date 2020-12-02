@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
-import firebase from "firebase/app";
-import firestore from "firebase/firestore";
+import axios from "axios";
 import "./App.css";
 // Pages
 import ComposePost from "./containers/ComposePost";
@@ -13,15 +12,15 @@ import UserProfile from "./containers/UserProfile";
 // Components
 import Header from "./components/Header";
 
-const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_KEY,
-  authDomain: "trailshare-dynamic-web.firebaseapp.com",
-  databaseURL: "https://trailshare-dynamic-web.firebaseio.com",
-  projectId: "trailshare-dynamic-web",
-  storageBucket: "trailshare-dynamic-web.appspot.com",
-  messagingSenderId: "595195663103",
-  appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
-};
+// const firebaseConfig = {
+//   apiKey: process.env.REACT_APP_FIREBASE_KEY,
+//   authDomain: "trailshare-dynamic-web.firebaseapp.com",
+//   databaseURL: "https://trailshare-dynamic-web.firebaseio.com",
+//   projectId: "trailshare-dynamic-web",
+//   storageBucket: "trailshare-dynamic-web.appspot.com",
+//   messagingSenderId: "595195663103",
+//   appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
+// };
 
 function App() {
   // STRAVA TEST CODE START
@@ -69,27 +68,42 @@ function App() {
     }
   }
 
-  showActivities();
+  // Uncomment this line to console log the last 30 activities
+  // showActivities();
 
   // STRAVA TEST CODE END
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [postsArray, setPostsArray] = useState(null);
-
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-
-  const db = firebase.firestore();
-  const posts = db.collection("posts");
+  const [postData, setPostData] = useState([]);
 
   useEffect(() => {
-    posts.get().then((querySnapshot) => {
-      const data = querySnapshot.docs.map((doc) => doc.data());
-      setPostsArray(data);
-    });
-  }, [db]);
+    axios
+      .get(`http://localhost:4000`)
+      .then(function (response) {
+        console.log(response.data);
+        setPostData(response.data);
+      })
+      .catch(function (error) {
+        console.log("error", error);
+      });
+  }, []);
+
+  console.log("postData state variable: ", postData);
+
+  // if (!firebase.apps.length) {
+  //   firebase.initializeApp(firebaseConfig);
+  // }
+
+  // const db = firebase.firestore();
+  // const posts = db.collection("posts");
+
+  // useEffect(() => {
+  //   posts.get().then((querySnapshot) => {
+  //     const data = querySnapshot.docs.map((doc) => doc.data());
+  //     setPostsArray(data);
+  //   });
+  // }, [db]);
 
   return (
     <div className="App">
@@ -103,7 +117,7 @@ function App() {
             <CreateAccount />
           </Route>
           <Route exact path="/">
-            <Home postsArray={postsArray} />
+            <Home postsArray={postData} />
           </Route>
           <Route exact path="/login">
             <Login />
