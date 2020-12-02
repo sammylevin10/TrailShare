@@ -16,7 +16,7 @@ function App() {
   // STRAVA TEST CODE START
 
   const [isLoading, setIsLoading] = useState(true);
-  const [activities, setActivities] = useState({});
+  const [activities, setActivities] = useState([]);
 
   //Strava Credentials
   let clientID = process.env.REACT_APP_STRAVA_CLIENT_ID;

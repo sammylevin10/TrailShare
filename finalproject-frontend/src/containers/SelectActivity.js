@@ -3,8 +3,8 @@ import React from "react";
 import StravaActivity from "../components/StravaActivity";
 
 function SelectActivity({ activitiesArray }) {
-  console.log("select activity received", activitiesArray);
   if (activitiesArray) {
+    console.log("select activity received", activitiesArray);
     return (
       <div className="SelectActivity">
         <h2>Select a Strava activity to share with your locality</h2>
