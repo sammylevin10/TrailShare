@@ -4,7 +4,6 @@ import Post from "../components/Post";
 
 function Home({ postsArray }) {
   if (postsArray) {
-    console.log("at home", postsArray);
     return (
       <div className="Home">
         {/* Data.map(element, iterator) is a function that acts like an enhanced for loop. It parses through each element in the iterable type */}

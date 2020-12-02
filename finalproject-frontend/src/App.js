@@ -12,16 +12,6 @@ import UserProfile from "./containers/UserProfile";
 // Components
 import Header from "./components/Header";
 
-// const firebaseConfig = {
-//   apiKey: process.env.REACT_APP_FIREBASE_KEY,
-//   authDomain: "trailshare-dynamic-web.firebaseapp.com",
-//   databaseURL: "https://trailshare-dynamic-web.firebaseio.com",
-//   projectId: "trailshare-dynamic-web",
-//   storageBucket: "trailshare-dynamic-web.appspot.com",
-//   messagingSenderId: "595195663103",
-//   appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
-// };
-
 function App() {
   // STRAVA TEST CODE START
 
@@ -69,7 +59,7 @@ function App() {
   }
 
   // Uncomment this line to console log the last 30 activities
-  // showActivities();
+  showActivities();
 
   // STRAVA TEST CODE END
 
@@ -81,29 +71,12 @@ function App() {
     axios
       .get(`http://localhost:4000`)
       .then(function (response) {
-        console.log(response.data);
         setPostData(response.data);
       })
       .catch(function (error) {
         console.log("error", error);
       });
   }, []);
-
-  console.log("postData state variable: ", postData);
-
-  // if (!firebase.apps.length) {
-  //   firebase.initializeApp(firebaseConfig);
-  // }
-
-  // const db = firebase.firestore();
-  // const posts = db.collection("posts");
-
-  // useEffect(() => {
-  //   posts.get().then((querySnapshot) => {
-  //     const data = querySnapshot.docs.map((doc) => doc.data());
-  //     setPostsArray(data);
-  //   });
-  // }, [db]);
 
   return (
     <div className="App">
@@ -123,7 +96,7 @@ function App() {
             <Login />
           </Route>
           <Route exact path="/select-activity">
-            <SelectActivity />
+            <SelectActivity activitiesArray={activities} />
           </Route>
           <Route exact path="/user-profile">
             <UserProfile />
