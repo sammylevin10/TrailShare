@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import firebase from "firebase/app";
+import "firebase/auth";
 import axios from "axios";
 import "./App.css";
 // Pages
@@ -65,11 +67,99 @@ function App() {
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [userAuthInfo, setAuthInfo] = useState({});
   const [postData, setPostData] = useState([]);
+
+  const firebaseConfig = {
+    apiKey: process.env.REACT_APP_FIREBASE_KEY,
+    authDomain: "trailshare-dynamic-web.firebaseapp.com",
+    databaseURL: "https://trailshare-dynamic-web.firebaseio.com",
+    projectId: "trailshare-dynamic-web",
+    storageBucket: "trailshare-dynamic-web.appspot.com",
+    messagingSenderId: "595195663103",
+    appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
+  };
+
+  // Ensure app is initialized when it is ready
+  useEffect(() => {
+    // If there are no firebase apps, initialize the app
+    if (!firebase.apps.length) {
+      // Initializes firebase
+      firebase.initializeApp(firebaseConfig);
+    }
+  }, [firebaseConfig]);
+
+  // Check to see if user is logged in...
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        //User is logged in
+        setLoggedIn(true);
+        setAuthInfo(user);
+      } else {
+        setLoggedIn(false);
+      }
+      setLoading(false);
+    });
+  }, []);
+
+  // Function for logging in
+  function LoginFunction(e) {
+    // This is what you will run when you want to log in
+    e.preventDefault();
+    const email = e.currentTarget.loginEmail.value;
+    const password = e.currentTarget.loginPassword.value;
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(function (response) {
+        console.log("Login response", response);
+        setLoggedIn(true);
+      })
+      .catch(function (error) {
+        console.log("Login error", error);
+      });
+  }
+
+  // Function for logging out
+  function LogoutFunction(e) {
+    // Function to run when you want to log out
+    firebase
+      .auth()
+      .signOut()
+      .then(function () {
+        setLoggedIn(false);
+        setAuthInfo({});
+      })
+      .catch(function (error) {
+        console.log("Logout error", error);
+      });
+  }
+
+  // Function for creating an account
+  function CreateAccountFunction(e) {
+    e.preventDefault();
+    const email = e.currentTarget.createEmail.value;
+    const password = e.currentTarget.createPassword.value;
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(function (response) {
+        console.log("Valid account created for", email, response);
+        setLoggedIn(true);
+      })
+      .catch(function (error) {
+        console.log("Account Creation Failed", error);
+      });
+  }
+
+  console.log("Hello", { loggedIn, loading });
+
+  // if (loading) return null;
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000`)
+      .get(`https://secure-ocean-28880.herokuapp.com`)
       .then(function (response) {
         setPostData(response.data);
       })
@@ -87,19 +177,47 @@ function App() {
             <ComposePost />
           </Route>
           <Route exact path="/create-account">
-            <CreateAccount />
+            {/* If someone is logged in, redirect them to home */}
+            {/* If someone is not logged in, take them to create account */}
+            {loggedIn ? (
+              <Redirect to="/" />
+            ) : (
+              <CreateAccount CreateAccountFunction={CreateAccountFunction} />
+            )}
           </Route>
           <Route exact path="/">
+            {/* Regardless of whether a user is logged in, display posts */}
             <Home postsArray={postData} />
           </Route>
           <Route exact path="/login">
-            <Login />
+            {/* If someone is logged in, redirect them to home */}
+            {/* If someone is not logged in, take them to login */}
+            {loggedIn ? (
+              <Redirect to="/" />
+            ) : (
+              <Login LoginFunction={LoginFunction} />
+            )}
           </Route>
           <Route exact path="/select-activity">
-            <SelectActivity activitiesArray={activities} />
+            {/* If someone is logged in, take them to select activity */}
+            {/* If someone is not logged in, redirect them to login */}
+            {loggedIn ? (
+              <SelectActivity activitiesArray={activities} />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route exact path="/user-profile">
-            <UserProfile />
+            {/* If someone is logged in, take them to user profile */}
+            {/* If someone is not logged in, redirect them to login */}
+            {loggedIn ? (
+              <UserProfile
+                LogoutFunction={LogoutFunction}
+                userAuthInfo={userAuthInfo}
+              />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
         </Router>
       </div>

@@ -256,6 +256,19 @@ form button {
   padding: 0 20px 0 20px;
 }
 
+.PseudoButton {
+  background-color: #c2c2c2;
+  border: none;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  font-size: 30px;
+  border-radius: 30px;
+  color: black;
+}
+
 /*--- Create Account ---*/
 .CreateAccount {
   max-width: 1000px;

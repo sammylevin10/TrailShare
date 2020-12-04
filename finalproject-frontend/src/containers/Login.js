@@ -1,12 +1,16 @@
 import React from "react";
 import LoginForm from "../components/LoginForm";
 
-function Login() {
+function Login({ LoginFunction }) {
   return (
     <div className="Login">
-      <button>Create a new TrailShare account</button>
-      <h2>Or log in to your existing account:</h2>
-      <LoginForm />
+      <h2>Log in to your existing account:</h2>
+      <LoginForm LoginFunction={LoginFunction} />
+      <br></br>
+      <br></br>
+      <a className="PseudoButton" href="/create-account">
+        or create a new TrailShare account
+      </a>
     </div>
   );
 }
