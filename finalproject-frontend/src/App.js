@@ -4,6 +4,7 @@ import firebase from "firebase/app";
 import "firebase/auth";
 import axios from "axios";
 import "./App.css";
+import parse from "html-react-parser";
 // Pages
 import ComposePost from "./containers/ComposePost";
 import CreateAccount from "./containers/CreateAccount";
@@ -157,9 +158,11 @@ function App() {
 
   // if (loading) return null;
 
+  // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
+  // LOCALHOST: http://localhost:4000
   useEffect(() => {
     axios
-      .get(`https://secure-ocean-28880.herokuapp.com`)
+      .get(`http://localhost:4000`)
       .then(function (response) {
         setPostData(response.data);
       })
@@ -167,6 +170,20 @@ function App() {
         console.log("error", error);
       });
   }, []);
+
+  // This was an attempt at getting and rendering the form from the backend
+  // useEffect(() => {
+  //   axios
+  //     .get(`http://localhost:4000/create`)
+  //     .then(function (response) {
+  //       console.log("Hello there");
+  //       setCreateForm(response.data);
+  //       console.log(response.data);
+  //     })
+  //     .catch(function (error) {
+  //       console.log("error", error);
+  //     });
+  // }, []);
 
   return (
     <div className="App">

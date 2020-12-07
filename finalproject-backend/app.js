@@ -3,7 +3,6 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 4000;
 
-//HERES WHERE YOU ADD FIREBASE LIKE EX4
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: "trailshare-dynamic-web.firebaseapp.com",
@@ -19,6 +18,7 @@ firebase.initializeApp(firebaseConfig);
 
 //Routes import
 const indexRoute = require("./routes/index.js");
+const createRoute = require("./routes/create.js");
 
 // ADD MORE ROUTES FOR GET/SUBMIT LIKE EX4
 app.use(function (req, res, next) {
@@ -29,5 +29,8 @@ app.use(function (req, res, next) {
   );
   next();
 });
+
 app.use("/", indexRoute);
+app.use("/create", createRoute);
+
 app.listen(port, () => console.log(`Backend is running at port:${port}`));
