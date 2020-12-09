@@ -6,10 +6,10 @@ const users = db.collection("users");
 
 router.get("/", (req, res) => {
   const queryParams = req.query;
-  const uid = queryParams.uid;
-  console.log(uid);
+  const email = queryParams.email;
+  console.log("Acquiring user data for " + email);
   users
-    .doc(uid)
+    .doc(email)
     .get()
     .then(function (doc) {
       return res.send(doc.data());

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
 import firebase from "firebase/app";
+import "firebase/firestore";
 import "firebase/auth";
 import axios from "axios";
 import "./App.css";
@@ -145,6 +146,14 @@ function App() {
     e.preventDefault();
     const email = e.currentTarget.createEmail.value;
     const password = e.currentTarget.createPassword.value;
+    const name = e.currentTarget.createName.value;
+    const object = {
+      name: name,
+      email: email,
+      posts: 0,
+      likes: 0,
+      distance: 0,
+    };
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -154,7 +163,11 @@ function App() {
       })
       .catch(function (error) {
         console.log("Account Creation Failed", error);
+        alert("Account Creation Failed");
       });
+    const db = firebase.firestore();
+    const users = db.collection("users");
+    users.doc(email).set(object);
   }
 
   console.log("Hello", { loggedIn, loading });
@@ -164,7 +177,7 @@ function App() {
     if (loggedIn) {
       // alert(userAuthInfo.uid);
       axios
-        .get(backendUrl + "/user/?uid=" + userAuthInfo.uid)
+        .get(backendUrl + "/user/?email=" + userAuthInfo.email)
         .then(function (response) {
           setUserData(response.data);
         })
@@ -244,7 +257,7 @@ function App() {
             {loggedIn ? (
               <UserProfile
                 LogoutFunction={LogoutFunction}
-                userAuthInfo={userAuthInfo}
+                userData={userData}
               />
             ) : (
               <Redirect to="/login" />
