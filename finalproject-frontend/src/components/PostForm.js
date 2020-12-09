@@ -1,6 +1,10 @@
 import React from "react";
 
 function PostForm({ userData }) {
+  function goHome(e) {
+    e.preventDefault();
+    window.location = "/";
+  }
   return (
     <div>
       <form
@@ -18,11 +22,17 @@ function PostForm({ userData }) {
         <input type="hidden" name="author" value={userData.name} />
         <input type="hidden" name="likes" value="0" />
         <input type="hidden" name="distance" value="0" />
-        <a href="/">
-          <button>Share</button>
-        </a>
+        <button onClick={goHome}>Share</button>
       </form>
-      <iframe title="hiddenTarget" width="0" height="0" border="0"></iframe>
+      <iframe
+        style={{ display: "none" }}
+        name="hiddenTarget"
+        title="hiddenTarget"
+        id="hiddenTarget"
+        width="0"
+        height="0"
+        border="0"
+      ></iframe>
     </div>
   );
 }
