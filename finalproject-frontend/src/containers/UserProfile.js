@@ -7,6 +7,7 @@ function UserProfile({ LogoutFunction, userAuthInfo }) {
     <div className="UserProfile">
       <h2>Firstname Lastname</h2>
       <p>{userAuthInfo.email}</p>
+      <p>{userAuthInfo.uid}</p>
       <div className="StatBar">
         <div className="Stat">
           <FontAwesomeIcon className="Icon" icon={faPen} />

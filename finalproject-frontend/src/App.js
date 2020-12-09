@@ -156,8 +156,6 @@ function App() {
 
   console.log("Hello", { loggedIn, loading });
 
-  // if (loading) return null;
-
   // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
   // LOCALHOST: http://localhost:4000
   useEffect(() => {
@@ -171,19 +169,19 @@ function App() {
       });
   }, []);
 
-  // This was an attempt at getting and rendering the form from the backend
-  // useEffect(() => {
-  //   axios
-  //     .get(`http://localhost:4000/create`)
-  //     .then(function (response) {
-  //       console.log("Hello there");
-  //       setCreateForm(response.data);
-  //       console.log(response.data);
-  //     })
-  //     .catch(function (error) {
-  //       console.log("error", error);
-  //     });
-  // }, []);
+  if (loading) {
+    return (
+      <div>
+        <Header />
+        <div className="LoadingWrapper">
+          <img
+            className="Loading"
+            src="https://64.media.tumblr.com/5d20cb9d224eb97fab488a8ca5b38d33/tumblr_nsocqzECoE1sjmeczo1_540.gifv"
+          ></img>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="App">

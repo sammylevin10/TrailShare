@@ -7,19 +7,18 @@ function PostForm() {
         className="PostForm"
         action="http://localhost:4000/create/submit"
         method="post"
-        target="hiddenFrame"
       >
-        <input type="text" name="postTitle" placeholder="Name your trail" />
+        <input type="text" name="title" placeholder="Name your trail" />
         <textarea
           type="text"
-          name="postDescription"
+          name="description"
           placeholder="Describe your trail (1-3 sentences)"
         ></textarea>
-        <button>
-          <a href="/">Share</a>
-        </button>
+        <a href="/">
+          <button>Share</button>
+        </a>
       </form>
-      <iframe name="hiddenFrame" width="0" height="0" border="0"></iframe>
+      <iframe title="hiddenTarget" width="0" height="0" border="0"></iframe>
     </div>
   );
 }

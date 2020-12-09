@@ -23,6 +23,19 @@ a {
   color: black;
 }
 
+/*-- LOADING --*/
+.LoadingWrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding-top: 250px;
+}
+
+.Loading {
+  width: 250px;
+}
+
 /*-- HEADER --*/
 
 .HeaderContainer {
