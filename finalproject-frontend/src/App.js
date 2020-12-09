@@ -57,7 +57,7 @@ function App() {
   function showActivities() {
     if (isLoading) return <>LOADING</>;
     if (!isLoading) {
-      console.log(activities);
+      // console.log(activities);
       // return activities.length;
     }
   }
@@ -170,8 +170,6 @@ function App() {
     users.doc(email).set(object);
   }
 
-  console.log("Hello", { loggedIn, loading });
-
   // Function for retrieving user data once authorized
   useEffect(() => {
     if (loggedIn) {
@@ -218,7 +216,7 @@ function App() {
       <div className="Content">
         <Router>
           <Route exact path="/compose-post">
-            <ComposePost />
+            <ComposePost userData={userData} />
           </Route>
           <Route exact path="/create-account">
             {/* If someone is logged in, redirect them to home */}

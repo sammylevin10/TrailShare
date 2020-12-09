@@ -25,12 +25,11 @@ router.get("/", (req, res) => res.send(form));
 // Route for submitting the form
 router.post("/submit", urlencodedParser, (req, res) => {
   const queryParams = req.body;
-  console.log(queryParams);
-  // Custom IDs for our posts
-  // Using Regex to process our title string into an id
-  //   const idFromTitle = queryParams.title.replace(/\s+/g, "-").toLowerCase();
+  const idFromTitle = queryParams.title.replace(/\s+/g, "-").toLowerCase();
+  queryParams.likes = 0;
+  queryParams.distance = 0;
   posts
-    .doc() // Allows you to create new posts or update them
+    .doc(idFromTitle) // Allows you to create new posts or update them
     .set(queryParams) //?title=text&text=text&author=text
     .then(function (doc) {
       //   res.end();
