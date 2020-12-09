@@ -70,6 +70,10 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [userAuthInfo, setAuthInfo] = useState({});
   const [postData, setPostData] = useState([]);
+  const [userData, setUserData] = useState({});
+  const backendUrl = "http://localhost:4000";
+  // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
+  // LOCALHOST: http://localhost:4000
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_KEY,
@@ -114,7 +118,6 @@ function App() {
       .auth()
       .signInWithEmailAndPassword(email, password)
       .then(function (response) {
-        console.log("Login response", response);
         setLoggedIn(true);
       })
       .catch(function (error) {
@@ -156,11 +159,24 @@ function App() {
 
   console.log("Hello", { loggedIn, loading });
 
-  // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
-  // LOCALHOST: http://localhost:4000
+  // Function for retrieving user data once authorized
+  useEffect(() => {
+    if (loggedIn) {
+      // alert(userAuthInfo.uid);
+      axios
+        .get(backendUrl + "/user/?uid=" + userAuthInfo.uid)
+        .then(function (response) {
+          setUserData(response.data);
+        })
+        .catch(function (error) {
+          console.log("error", error);
+        });
+    }
+  }, [userAuthInfo]);
+
   useEffect(() => {
     axios
-      .get(`http://localhost:4000`)
+      .get(backendUrl)
       .then(function (response) {
         setPostData(response.data);
       })
