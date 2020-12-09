@@ -2,12 +2,31 @@ import { React, useState } from "react";
 import GoogleMapReact from "google-map-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
+import axios from "axios";
 
 function Post({ data }) {
   const [center, setCenter] = useState({
     lat: 59.95,
     lng: 30.33,
   });
+  let [liked, setLiked] = useState(false);
+
+  function likeUnlike() {
+    let increment = 1;
+    if (liked) {
+      increment = -1;
+    }
+    setLiked(!liked);
+    axios
+      .get("http://localhost:4000/like", {
+        params: { title: data.title, num: increment, email: data.email },
+      })
+      .catch(function (error) {
+        console.log("error", error);
+      });
+  }
+
   return (
     <div className="Post">
       <div className="Column1">
@@ -36,7 +55,20 @@ function Post({ data }) {
           <p>{data.distance + " mi"}</p>
         </div>
         <div className="Stat">
-          <FontAwesomeIcon className="Icon" icon={faHeart} />
+          {liked ? (
+            <FontAwesomeIcon
+              onClick={likeUnlike}
+              className="Icon"
+              icon={faHeart}
+            />
+          ) : (
+            <FontAwesomeIcon
+              onClick={likeUnlike}
+              className="Icon"
+              icon={farHeart}
+            />
+          )}
+
           <p>{data.likes + " likes"}</p>
         </div>
       </div>

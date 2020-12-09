@@ -20,6 +20,7 @@ firebase.initializeApp(firebaseConfig);
 const indexRoute = require("./routes/index.js");
 const createRoute = require("./routes/create.js");
 const userRoute = require("./routes/user.js");
+const likeRoute = require("./routes/like.js");
 
 // ADD MORE ROUTES FOR GET/SUBMIT LIKE EX4
 app.use(function (req, res, next) {
@@ -34,5 +35,6 @@ app.use(function (req, res, next) {
 app.use("/", indexRoute);
 app.use("/create", createRoute);
 app.use("/user", userRoute);
+app.use("/like", likeRoute);
 
 app.listen(port, () => console.log(`Backend is running at port:${port}`));
