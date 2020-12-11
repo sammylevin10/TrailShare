@@ -215,8 +215,8 @@ function App() {
       <Header />
       <div className="Content">
         <Router>
-          <Route exact path="/compose-post">
-            <ComposePost userData={userData} />
+          <Route exact path="/compose-post/:id">
+            <ComposePost userData={userData} activitiesArray={activities} />
           </Route>
           <Route exact path="/create-account">
             {/* If someone is logged in, redirect them to home */}

@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React, useEffect, useState } from "react";
 import GoogleMapReact from "google-map-react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag, faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -11,13 +11,17 @@ function Post({ data }) {
     lng: 30.33,
   });
   let [liked, setLiked] = useState(false);
+  let [likes, setLikes] = useState(0);
 
+  // Function to increment likes state variable and increment likes in firestore
+  // Uses optimistic rendering strategy (assume local likes value matches firestore likes)
   function likeUnlike() {
     let increment = 1;
     if (liked) {
       increment = -1;
     }
     setLiked(!liked);
+    setLikes(likes + increment);
     axios
       .get("http://localhost:4000/like", {
         params: { title: data.title, num: increment, email: data.email },
@@ -26,6 +30,13 @@ function Post({ data }) {
         console.log("error", error);
       });
   }
+
+  // Hook to initially set likes to reflect that of database
+  useEffect(() => {
+    if (data.likes) {
+      setLikes(data.likes);
+    }
+  }, [data]);
 
   return (
     <div className="Post">
@@ -69,7 +80,7 @@ function Post({ data }) {
             />
           )}
 
-          <p>{data.likes + " likes"}</p>
+          <p>{likes + " likes"}</p>
         </div>
       </div>
     </div>

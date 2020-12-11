@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import StravaActivity from "../components/StravaActivity";
+import ComposePost from "./ComposePost";
 
 function SelectActivity({ activitiesArray }) {
   if (activitiesArray) {

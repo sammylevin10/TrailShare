@@ -1,10 +1,14 @@
 import React from "react";
 
-function PostForm({ userData }) {
+function PostForm({ userData, id, activitiesArray }) {
   function goHome(e) {
     e.preventDefault();
     window.location = "/";
   }
+
+  const activity = activitiesArray.find(({ upload_id }) => upload_id == id);
+  console.log("activity", activity);
+
   return (
     <div>
       <form

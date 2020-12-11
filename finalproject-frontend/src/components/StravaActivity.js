@@ -1,5 +1,6 @@
 import { React } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import {
   faCalendarAlt,
   faStopwatch,
@@ -8,7 +9,10 @@ import {
 
 function StravaActivity({ data }) {
   return (
-    <a className="StravaActivityButton" href="/compose-post">
+    <Link
+      className="StravaActivityButton"
+      to={`compose-post/${data.upload_id}`}
+    >
       <div className="StravaActivity">
         <div className="Column1">
           <h2>{data.name}</h2>
@@ -30,7 +34,7 @@ function StravaActivity({ data }) {
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
