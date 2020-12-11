@@ -32,10 +32,16 @@ function Post({ data }) {
   }
 
   // Hook to initially set likes to reflect that of database
+  // It also initializes center
   useEffect(() => {
     if (data.likes) {
       setLikes(data.likes);
     }
+    let newCenter = {
+      lat: data.lat,
+      lng: data.lng,
+    };
+    console.log(newCenter);
   }, [data]);
 
   return (
@@ -63,7 +69,7 @@ function Post({ data }) {
         <p>{data.description}</p>
         <div className="Stat">
           <FontAwesomeIcon className="Icon" icon={faFlag} />
-          <p>{data.distance + " mi"}</p>
+          <p>{(data.distance / 1000).toFixed(1) + " km"}</p>
         </div>
         <div className="Stat">
           {liked ? (

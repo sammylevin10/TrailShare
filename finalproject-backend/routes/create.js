@@ -23,11 +23,13 @@ const form = `
 router.get("/", (req, res) => res.send(form));
 
 // Route for submitting the form
-router.post("/submit", urlencodedParser, (req, res) => {
-  const queryParams = req.body;
+router.get("/submit", (req, res) => {
+  const queryParams = req.query;
   const idFromTitle = queryParams.title.replace(/\s+/g, "-").toLowerCase();
   queryParams.likes = 0;
-  queryParams.distance = 0;
+  queryParams.distance = parseFloat(queryParams.distance);
+  queryParams.lat = parseFloat(queryParams.lat);
+  queryParams.lng = parseFloat(queryParams.lng);
   posts
     .doc(idFromTitle) // Allows you to create new posts or update them
     .set(queryParams) //?title=text&text=text&author=text
