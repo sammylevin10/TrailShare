@@ -30,6 +30,11 @@ router.get("/submit", (req, res) => {
   queryParams.distance = parseFloat(queryParams.distance);
   queryParams.lat = parseFloat(queryParams.lat);
   queryParams.lng = parseFloat(queryParams.lng);
+  if (queryParams.bike == "true") {
+    queryParams.bike = true;
+  } else {
+    queryParams.bike = false;
+  }
   posts
     .doc(idFromTitle) // Allows you to create new posts or update them
     .set(queryParams) //?title=text&text=text&author=text

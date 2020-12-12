@@ -2,10 +2,6 @@ import axios from "axios";
 import React from "react";
 
 function PostForm({ userData, id, activitiesArray }) {
-  function goHome(e) {
-    e.preventDefault();
-    window.location = "/";
-  }
   const activity = activitiesArray.find(({ upload_id }) => upload_id == id);
 
   function postTrail(e) {
@@ -30,11 +26,12 @@ function PostForm({ userData, id, activitiesArray }) {
       .catch(function (error) {
         console.log("Error creating post", error);
       });
+    window.location = "/";
   }
 
   return (
     <div>
-      <form className="PostForm" onSubmit={(e) => postTrail(e)}>
+      <form className="PostForm" onSubmit={(e) => postTrail(e)} action="/">
         <input type="text" name="title" placeholder="Name your trail" />
         <textarea
           type="text"
@@ -45,15 +42,6 @@ function PostForm({ userData, id, activitiesArray }) {
         <input type="hidden" name="distance" value="0" />
         <button>Share</button>
       </form>
-      <iframe
-        style={{ display: "none" }}
-        name="hiddenTarget"
-        title="hiddenTarget"
-        id="hiddenTarget"
-        width="0"
-        height="0"
-        border="0"
-      ></iframe>
     </div>
   );
 }
