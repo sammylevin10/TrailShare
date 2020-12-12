@@ -1,12 +1,6 @@
 import { React, useEffect, useState } from "react";
 import GoogleMap from "google-map-react";
-// import {
-//   withGoogleMap,
-//   GoogleMap,
-//   Marker,
-//   InfoWindow,
-//   Polyline,
-// } from "react-google-maps";
+import decodePolyline from "decode-google-map-polyline";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFlag, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
@@ -17,8 +11,9 @@ function Post({ data }) {
     lat: 59.95,
     lng: 30.33,
   });
-  let [liked, setLiked] = useState(false);
-  let [likes, setLikes] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(0);
+  const [encodedPolyline, setEncodedPolyline] = useState(null);
 
   // Function to increment likes state variable and increment likes in firestore
   // Uses optimistic rendering strategy (assume local likes value matches firestore likes)
@@ -40,6 +35,7 @@ function Post({ data }) {
 
   // Hook to initially set likes to reflect that of database
   // It also initializes center
+  // It also initializes polyline
   useEffect(() => {
     if (data.likes) {
       setLikes(data.likes);
@@ -48,13 +44,8 @@ function Post({ data }) {
       lat: data.lat,
       lng: data.lng,
     };
-    console.log(newCenter);
+    setEncodedPolyline(decodePolyline(data.polyline));
   }, [data]);
-
-  const testCoords = [
-    { lat: 36.05298765935, lng: -112.083756616339 },
-    { lat: 36.2169884797185, lng: -112.056727493181 },
-  ];
 
   // STRATEGY:
   // Install google maps react instead of map react so you can use polyline component
@@ -62,64 +53,24 @@ function Post({ data }) {
   // Decode the encoded polyline using some package
   // Use this fiddle to help http://jsfiddle.net/sv12dwp3/
 
-  let markers =
-    // { lat: 53.42728, lng: -6.24357 },
-    // { lat: 43.681583, lng: -79.61146 },
-    [
-      {
-        lat: 40.69212,
-        lng: -73.98489,
-      },
-      {
-        lat: 40.69207,
-        lng: -73.98503,
-      },
-      {
-        lat: 40.69219,
-        lng: -73.9851,
-      },
-      {
-        lat: 40.69219,
-        lng: -73.98519,
-      },
-      {
-        lat: 40.69213,
-        lng: -73.98546,
-      },
-    ];
-  // let center = [47.367347, 8.5500025];
-  let zoom = 4;
-
   function renderPolylines(map, maps) {
-    /** Example of rendering geodesic polyline */
-    let geodesicPolyline = new maps.Polyline({
-      path: markers,
-      geodesic: true,
-      strokeColor: "#00a1e1",
-      strokeOpacity: 1.0,
+    let nonGeodesicPolyline = new maps.Polyline({
+      path: encodedPolyline,
+      geodesic: false,
+      strokeColor: "#ff8400",
+      strokeOpacity: 1,
       strokeWeight: 4,
     });
-    geodesicPolyline.setMap(map);
-
-    /** Example of rendering non geodesic polyline (straight line) */
-    let nonGeodesicPolyline = new maps.Polyline({
-      path: markers,
-      geodesic: false,
-      strokeColor: "#e4e4e4",
-      strokeOpacity: 0.7,
-      strokeWeight: 3,
-    });
     nonGeodesicPolyline.setMap(map);
-
     fitBounds(map, maps);
   }
 
   function fitBounds(map, maps) {
     var bounds = new maps.LatLngBounds();
-    for (let marker of markers) {
+    for (let marker of encodedPolyline) {
       bounds.extend(new maps.LatLng(marker.lat, marker.lng));
     }
-    map.fitBounds(bounds);
+    map.fitBounds(bounds, -30);
   }
 
   return (
@@ -132,63 +83,15 @@ function Post({ data }) {
                 bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
                 // style={{ height: "100vh", width: "100%" }}
                 defaultCenter={{ lat: data.lat, lng: data.lng }}
-                defaultZoom={14}
+                defaultZoom={5}
+                yesIWantToUseGoogleMapApiInternals={true}
+                options={{
+                  styles: require(`../components/MapStyle.json`),
+                }}
                 onGoogleApiLoaded={({ map, maps }) =>
                   renderPolylines(map, maps)
                 }
-              >
-                {/* <Marker text={"DUB"} lat={53.42728} lng={-6.24357} />
-                <Marker text={"YYZ"} lat={43.681583} lng={-79.61146} /> */}
-              </GoogleMap>
-              // <GoogleMapReact
-              //   bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
-              //   defaultCenter={{ lat: data.lat, lng: data.lng }}
-              //   defaultZoom={14}
-              //   // Custom styling for the map, set to the color scheme of the website
-              //   options={{
-              //     styles: require(`../components/MapStyle.json`),
-              //   }}
-              // >
-              //   <Polyline
-              //     path={testCoords}
-              //     options={{
-              //       strokeColor: "#00ffff",
-              //       strokeOpacity: 1,
-              //       strokeWeight: 10,
-              //       icons: [
-              //         {
-              //           icon: "hello",
-              //           offset: "0",
-              //           repeat: "10px",
-              //         },
-              //       ],
-              //     }}
-              //   />
-              // </GoogleMapReact>
-              // <script src= {`https://maps.googleapis.com/maps/api/js?key=${process.env.REACT_APP_MAPS_KEY}`} ></script>
-              // <GoogleMap
-              //   bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
-              //   defaultZoom={14}
-              //   defaultCenter={{ lat: data.lat, lng: data.lng }}
-              // >
-              //   {/*for creating path with the updated coordinates*/}
-              //   <Polyline
-              //     path={testCoords}
-              //     geodesic={true}
-              //     options={{
-              //       strokeColor: "#ff2527",
-              //       strokeOpacity: 0.75,
-              //       strokeWeight: 2,
-              //       // icons: [
-              //       //   {
-              //       //     icon: lineSymbol,
-              //       //     offset: "0",
-              //       //     repeat: "20px",
-              //       //   },
-              //       // ],
-              //     }}
-              //   />
-              // </GoogleMap>
+              ></GoogleMap>
             )}
           </div>
         </div>
