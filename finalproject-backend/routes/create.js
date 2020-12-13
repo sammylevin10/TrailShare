@@ -9,18 +9,7 @@ const firebase = require("firebase");
 const db = firebase.firestore();
 // Reference a specific collection
 const posts = db.collection("posts");
-
-const form = `
-<form action="/create/submit" method="post">
-    <input type = "text" name = "title" placeholder = "Title of post" />
-    <input type = "text" name = "text" placeholder = "Title of post" />
-    <input type = "text" name = "author" placeholder = "Title of post" />
-    <button type = "submit">Submit Post</buttom>
-</form>
-`;
-
-// Default route serves form
-router.get("/", (req, res) => res.send(form));
+const users = db.collection("users");
 
 // Route for submitting the form
 router.get("/submit", (req, res) => {
@@ -47,6 +36,13 @@ router.get("/submit", (req, res) => {
       console.log("error", error);
       res.send("Failed submission");
     });
+  const userRef = users.doc(queryParams.email);
+  const distanceIncrement = firebase.firestore.FieldValue.increment(
+    (queryParams.distance / 1000).toFixed(1)
+  );
+  const postsIncrement = firebase.firestore.FieldValue.increment(1);
+  userRef.update({ distance: distanceIncrement });
+  userRef.update({ posts: postsIncrement });
 });
 
 module.exports = router;

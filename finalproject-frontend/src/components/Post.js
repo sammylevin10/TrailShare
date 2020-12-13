@@ -24,6 +24,7 @@ function Post({ data }) {
     }
     setLiked(!liked);
     setLikes(likes + increment);
+    console.log(data.email);
     axios
       .get("http://localhost:4000/like", {
         params: { title: data.title, num: increment, email: data.email },

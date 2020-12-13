@@ -15,10 +15,11 @@ function PostForm({ userData, id, activitiesArray }) {
     const likes = 0;
     const polyline = activity.map.summary_polyline;
     const title = e.currentTarget.title.value;
+    const email = userData.email;
     console.log(title);
     axios
       .get(
-        `http://localhost:4000/create/submit?author=${author}&bike=${bike}&description=${description}&distance=${distance}&lat=${lat}&lng=${lng}&likes=${likes}&polyline=${polyline}&title=${title}`
+        `http://localhost:4000/create/submit?email=${email}&author=${author}&bike=${bike}&description=${description}&distance=${distance}&lat=${lat}&lng=${lng}&likes=${likes}&polyline=${polyline}&title=${title}`
       )
       .then(function (response) {
         console.log({ SUCCESS: response });

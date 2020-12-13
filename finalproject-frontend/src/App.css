@@ -90,8 +90,25 @@ header nav a {
   margin: 0 auto;
 }
 
+.FixedTitle {
+  position: fixed;
+  top: 100px;
+}
+
+.HomeContainer .LoadingWrapper {
+  padding-top: 200px;
+}
+
 .TrailParameters {
   font-size: 30px;
+  margin: 20px 0 30px 0;
+  padding: 0;
+}
+
+.ErrorText {
+  color: grey;
+  font-size: 30px;
+  font-style: italic;
   margin: 20px 0 30px 0;
   padding: 0;
 }
@@ -156,6 +173,10 @@ select {
 }
 
 /*--- User Profile ---*/
+
+.Spacer {
+  height: 20px;
+}
 
 .UserProfile {
   max-width: 1000px;

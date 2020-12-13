@@ -6,6 +6,7 @@ import "firebase/auth";
 import axios from "axios";
 import "./App.css";
 import parse from "html-react-parser";
+import { geolocated } from "react-geolocated";
 // Pages
 import ComposePost from "./containers/ComposePost";
 import CreateAccount from "./containers/CreateAccount";
@@ -16,7 +17,7 @@ import UserProfile from "./containers/UserProfile";
 // Components
 import Header from "./components/Header";
 
-function App() {
+function App(props) {
   // STRAVA TEST CODE START
 
   const [isLoading, setIsLoading] = useState(true);
@@ -72,6 +73,7 @@ function App() {
   const [userAuthInfo, setAuthInfo] = useState({});
   const [postData, setPostData] = useState([]);
   const [userData, setUserData] = useState({});
+  const [location, setLocation] = useState(null);
   const backendUrl = "http://localhost:4000";
   // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
   // LOCALHOST: http://localhost:4000
@@ -196,6 +198,14 @@ function App() {
       });
   }, []);
 
+  // FIGURE OUT HOW TO DO GEOLOCATION AND PASS TO HOME
+
+  useEffect(() => {
+    if (props) {
+      setLocation(props.coords);
+    }
+  }, [props]);
+
   if (loading) {
     return (
       <div>
@@ -229,7 +239,7 @@ function App() {
           </Route>
           <Route exact path="/">
             {/* Regardless of whether a user is logged in, display posts */}
-            <Home postsArray={postData} />
+            <Home postsArray={postData} geolocation={location} />
           </Route>
           <Route exact path="/login">
             {/* If someone is logged in, redirect them to home */}
@@ -256,6 +266,7 @@ function App() {
               <UserProfile
                 LogoutFunction={LogoutFunction}
                 userData={userData}
+                postsArray={postData}
               />
             ) : (
               <Redirect to="/login" />
@@ -267,4 +278,9 @@ function App() {
   );
 }
 
-export default App;
+export default geolocated({
+  positionOptions: {
+    enableHighAccuracy: true,
+  },
+  userDecisionTimeout: 5000,
+})(App);
