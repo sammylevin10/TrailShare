@@ -1,12 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const bodyParser = require("body-parser");
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-// Require firebase
 const firebase = require("firebase");
-// Initialize firestore database
 const db = firebase.firestore();
-// Reference a specific collection
 const posts = db.collection("posts");
 const users = db.collection("users");
 

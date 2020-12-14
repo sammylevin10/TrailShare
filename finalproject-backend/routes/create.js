@@ -28,8 +28,6 @@ router.get("/submit", (req, res) => {
     .doc(idFromTitle) // Allows you to create new posts or update them
     .set(queryParams) //?title=text&text=text&author=text
     .then(function (doc) {
-      //   res.end();
-      console.log(queryParams);
       res.send(queryParams);
     })
     .catch(function (error) {
