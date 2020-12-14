@@ -16,16 +16,12 @@ function PostForm({ userData, id, activitiesArray }) {
     const polyline = activity.map.summary_polyline;
     const title = e.currentTarget.title.value;
     const email = userData.email;
-    console.log(title);
     axios
       .get(
         `http://localhost:4000/create/submit?email=${email}&author=${author}&bike=${bike}&description=${description}&distance=${distance}&lat=${lat}&lng=${lng}&likes=${likes}&polyline=${polyline}&title=${title}`
       )
-      .then(function (response) {
-        console.log({ SUCCESS: response });
-      })
       .catch(function (error) {
-        console.log("Error creating post", error);
+        console.warn("Error creating post", error);
       });
     window.location = "/";
   }

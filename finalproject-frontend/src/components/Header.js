@@ -1,7 +1,5 @@
 import React from "react";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { faHome, faUser, faEdit } from "@fortawesome/free-solid-svg-icons";
 
 function Header() {
@@ -10,9 +8,6 @@ function Header() {
       <header>
         <h1>TrailShare</h1>
         <nav>
-          {/* <a href="/create-account">Create Account</a>
-        <a href="/login">Login</a>
-        <a href="/select-activity">Select Activity</a> */}
           <a href="/">
             <FontAwesomeIcon icon={faHome} />
           </a>

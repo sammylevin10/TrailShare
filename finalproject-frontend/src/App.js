@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
 import axios from "axios";
 import "./App.css";
-import parse from "html-react-parser";
 import { geolocated } from "react-geolocated";
 // Pages
 import ComposePost from "./containers/ComposePost";
@@ -20,69 +18,6 @@ import UserProfile from "./containers/UserProfile";
 import Header from "./components/Header";
 
 function App(props) {
-  // STRAVA TEST CODE START
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [activities, setActivities] = useState([]);
-
-  //Strava Credentials
-  let clientID = process.env.REACT_APP_STRAVA_CLIENT_ID;
-  let clientSecret = process.env.REACT_APP_STRAVA_CLIENT_SECRET;
-  let redirectURI = "http://localhost:3000/strava-authenticate";
-
-  // refresh token and call address
-  const refreshToken = localStorage.getItem("stravaRefreshToken");
-  // const refreshToken = "8927a886e27140faaccdd406f809aad09a839612";
-  // const refreshToken = "05009d90b803ab0aa3a642a4fcb9cf218e1f1dd0";
-  // const refreshToken = process.env.REACT_APP_STRAVA_REFRESH_TOKEN;
-  // const code = JSON.parse(localStorage.getItem("stravaAuthentication"));
-  const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
-
-  // endpoint for read-all activities. temporary token is added in getActivities()
-  const callActivities = `https://www.strava.com/api/v3/athlete/activities?per_page=50&access_token=`;
-
-  // Use refresh token to get current access token
-  useEffect(() => {
-    fetch(callRefresh, {
-      method: "POST",
-    })
-      .then((res) => res.json())
-      .then(function (result) {
-        console.log("Refresh token: ", refreshToken);
-        console.log("Access token: ", result.access_token);
-        getActivities(result.access_token);
-      });
-    // .then((result) => getActivities(result.access_token));
-  }, [callRefresh]);
-
-  // use current access token to call all activities
-  function getActivities(access) {
-    fetch(callActivities + access)
-      .then((res) => res.json())
-      .then(
-        (data) => setActivities(data),
-        setIsLoading((prev) => !prev)
-      )
-      .catch((e) => console.log(e));
-  }
-
-  // STRAVA TEST CODE END
-
-  function stravaAuthenticate() {
-    let authorizeURL = `http://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_STRAVA_CLIENT_ID}&response_type=code&redirect_uri=${redirectURI}&approval_prompt=force&scope=activity:read_all`;
-    window.location = authorizeURL;
-  }
-
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [userAuthInfo, setAuthInfo] = useState({});
-  const [postData, setPostData] = useState([]);
-  const [userData, setUserData] = useState({});
-  const [location, setLocation] = useState(null);
-  const backendUrl = "http://localhost:4000";
-  // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
-  // LOCALHOST: http://localhost:4000
-
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_KEY,
     authDomain: "trailshare-dynamic-web.firebaseapp.com",
@@ -93,16 +28,60 @@ function App(props) {
     appId: "1:595195663103:web:f2189a9d41d41d062cb2ca",
   };
 
-  // Ensure app is initialized when it is ready
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [userAuthInfo, setAuthInfo] = useState({});
+  const [postData, setPostData] = useState([]);
+  const [userData, setUserData] = useState({});
+  const [location, setLocation] = useState(null);
+  const [activities, setActivities] = useState([]);
+  const backendUrl = "http://localhost:4000";
+  // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
+  // LOCALHOST: http://localhost:4000
+
+  //Strava Credentials
+  let clientID = process.env.REACT_APP_STRAVA_CLIENT_ID;
+  let clientSecret = process.env.REACT_APP_STRAVA_CLIENT_SECRET;
+  let redirectURI = "http://localhost:3000/strava-authenticate";
+
+  // Refresh token and urls for acquiring refresh token and calling activities
+  const refreshToken = localStorage.getItem("stravaRefreshToken");
+  const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
+  const callActivities = `https://www.strava.com/api/v3/athlete/activities?per_page=50&access_token=`;
+
+  // Use refresh token to get current access token
   useEffect(() => {
-    // If there are no firebase apps, initialize the app
+    fetch(callRefresh, {
+      method: "POST",
+    })
+      .then((res) => res.json())
+      .then(function (result) {
+        getActivities(result.access_token);
+      });
+  }, [callRefresh]);
+
+  // Use current access token to call all activities
+  function getActivities(access) {
+    fetch(callActivities + access)
+      .then((res) => res.json())
+      .then((data) => setActivities(data))
+      .catch((e) => console.warn(e));
+  }
+
+  // Redirect to Strava OAuth after account creation
+  function stravaAuthenticate() {
+    let authorizeURL = `http://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_STRAVA_CLIENT_ID}&response_type=code&redirect_uri=${redirectURI}&approval_prompt=force&scope=activity:read_all`;
+    window.location = authorizeURL;
+  }
+
+  // Initialize Firebase App
+  useEffect(() => {
     if (!firebase.apps.length) {
-      // Initializes firebase
       firebase.initializeApp(firebaseConfig);
     }
   }, [firebaseConfig]);
 
-  // Check to see if user is logged in...
+  // Check to see if user is logged in
   useEffect(() => {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
@@ -118,7 +97,6 @@ function App(props) {
 
   // Function for logging in
   function LoginFunction(e) {
-    // This is what you will run when you want to log in
     e.preventDefault();
     const email = e.currentTarget.loginEmail.value;
     const password = e.currentTarget.loginPassword.value;
@@ -129,13 +107,12 @@ function App(props) {
         setLoggedIn(true);
       })
       .catch(function (error) {
-        console.log("Login error", error);
+        console.warn("Login error", error);
       });
   }
 
   // Function for logging out
   function LogoutFunction(e) {
-    // Function to run when you want to log out
     firebase
       .auth()
       .signOut()
@@ -144,7 +121,7 @@ function App(props) {
         setAuthInfo({});
       })
       .catch(function (error) {
-        console.log("Logout error", error);
+        console.warn("Logout error", error);
       });
   }
 
@@ -165,7 +142,6 @@ function App(props) {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(function (response) {
-        console.log("Valid account created for", email, response);
         setLoggedIn(true);
         const db = firebase.firestore();
         const users = db.collection("users");
@@ -173,7 +149,7 @@ function App(props) {
         stravaAuthenticate();
       })
       .catch(function (error) {
-        console.log("Account Creation Failed", error);
+        console.warn("Account Creation Failed", error);
         alert("Account Creation Failed");
       });
   }
@@ -188,12 +164,12 @@ function App(props) {
           setUserData(response.data);
         })
         .catch(function (error) {
-          console.log("error", error);
+          console.warn("error", error);
         });
     }
-    console.log("User is logged in ", loggedIn);
   }, [userAuthInfo]);
 
+  // Get posts from firebase
   useEffect(() => {
     axios
       .get(backendUrl)
@@ -201,10 +177,11 @@ function App(props) {
         setPostData(response.data);
       })
       .catch(function (error) {
-        console.log("error", error);
+        console.warn("error", error);
       });
   }, []);
 
+  // Set user's geolocation
   useEffect(() => {
     if (props) {
       setLocation(props.coords);

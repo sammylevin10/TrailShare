@@ -7,10 +7,6 @@ import { faHeart as farHeart } from "@fortawesome/free-regular-svg-icons";
 import axios from "axios";
 
 function Post({ data }) {
-  const [center, setCenter] = useState({
-    lat: 59.95,
-    lng: 30.33,
-  });
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState(0);
   const [encodedPolyline, setEncodedPolyline] = useState(null);
@@ -24,36 +20,25 @@ function Post({ data }) {
     }
     setLiked(!liked);
     setLikes(likes + increment);
-    console.log(data.email);
     axios
       .get("http://localhost:4000/like", {
         params: { title: data.title, num: increment, email: data.email },
       })
       .catch(function (error) {
-        console.log("error", error);
+        console.warn("error", error);
       });
   }
 
   // Hook to initially set likes to reflect that of database
-  // It also initializes center
   // It also initializes polyline
   useEffect(() => {
     if (data.likes) {
       setLikes(data.likes);
     }
-    let newCenter = {
-      lat: data.lat,
-      lng: data.lng,
-    };
     setEncodedPolyline(decodePolyline(data.polyline));
   }, [data]);
 
-  // STRATEGY:
-  // Install google maps react instead of map react so you can use polyline component
-  // Follow this thread https://stackoverflow.com/questions/45427635/how-to-create-polyline-using-react-google-maps-library
-  // Decode the encoded polyline using some package
-  // Use this fiddle to help http://jsfiddle.net/sv12dwp3/
-
+  // Function to decode and render polyline data
   function renderPolylines(map, maps) {
     let nonGeodesicPolyline = new maps.Polyline({
       path: encodedPolyline,
@@ -66,6 +51,7 @@ function Post({ data }) {
     fitBounds(map, maps);
   }
 
+  // Function to resize map bounds based on polyline
   function fitBounds(map, maps) {
     var bounds = new maps.LatLngBounds();
     for (let marker of encodedPolyline) {
@@ -79,21 +65,16 @@ function Post({ data }) {
       <div className="Column1">
         <div className="Map-Container">
           <div className="Map" style={{ height: "100%", width: "100%" }}>
-            {center !== null && (
-              <GoogleMap
-                bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
-                // style={{ height: "100vh", width: "100%" }}
-                defaultCenter={{ lat: data.lat, lng: data.lng }}
-                defaultZoom={5}
-                yesIWantToUseGoogleMapApiInternals={true}
-                options={{
-                  styles: require(`../components/MapStyle.json`),
-                }}
-                onGoogleApiLoaded={({ map, maps }) =>
-                  renderPolylines(map, maps)
-                }
-              ></GoogleMap>
-            )}
+            <GoogleMap
+              bootstrapURLKeys={{ key: process.env.REACT_APP_MAPS_KEY }}
+              defaultCenter={{ lat: data.lat, lng: data.lng }}
+              defaultZoom={5}
+              yesIWantToUseGoogleMapApiInternals={true}
+              options={{
+                styles: require(`../components/MapStyle.json`),
+              }}
+              onGoogleApiLoaded={({ map, maps }) => renderPolylines(map, maps)}
+            ></GoogleMap>
           </div>
         </div>
       </div>

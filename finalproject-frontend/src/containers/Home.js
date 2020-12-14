@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Post from "../components/Post";
 
 function Home({ postsArray, geolocation }) {
@@ -33,18 +32,17 @@ function Home({ postsArray, geolocation }) {
   function handleBikeRun(e) {
     e.preventDefault();
     let value = e.currentTarget.value;
-    if (value == "cycling") {
+    if (value === "cycling") {
       setBike(true);
     } else {
       setBike(false);
     }
-    console.log(bike);
   }
 
   function handleRadius(e) {
     e.preventDefault();
     let value = e.currentTarget.value;
-    if (value == "inf") {
+    if (value === "inf") {
       setRadius(40000);
     } else {
       setRadius(parseInt(value));
@@ -72,17 +70,17 @@ function Home({ postsArray, geolocation }) {
         {/* Data.map(element, iterator) is a function that acts like an enhanced for loop. It parses through each element in the iterable type */}
         {/* For every object in addData, generate Post */}
         {postsArray.map((postData, i) => {
-          if (i == 0) {
+          if (i === 0) {
             postsDisplayed = 0;
           }
           if (
             withinRadius(postData.lat, postData.lng, radius) &&
-            postData.bike == bike
+            postData.bike === bike
           ) {
             postsDisplayed += 1;
             return <Post key={i} data={postData} />;
           }
-          if (postsArray.length == i + 1 && postsDisplayed == 0) {
+          if (postsArray.length === i + 1 && postsDisplayed === 0) {
             return (
               <p className="ErrorText">
                 Uh oh! There are no listed trails within your local radius.
