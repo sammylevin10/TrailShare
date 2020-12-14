@@ -1,4 +1,4 @@
-import { React } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import {
@@ -8,6 +8,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 function StravaActivity({ data }) {
+  const [dateString, setDateString] = useState(null);
+  const [duration, setDuration] = useState(null);
+  useEffect(() => {
+    let dateSubstring = data.start_date_local.substring(1, 10);
+    let year = dateSubstring.substring(1, 3);
+    let month = dateSubstring.substring(4, 6);
+    let date = dateSubstring.substring(7, 9);
+    setDateString(date + "/" + month + "/" + year);
+    let time = data.moving_time / 60;
+    let hours = (time / 60).toFixed(0);
+    let minutes = (time % 60).toFixed(0);
+    let hoursString = hours.toString();
+    let minutesString = minutes.toString();
+    if (hoursString.length == 1) {
+      hoursString = "0" + hoursString;
+    }
+    if (minutesString.length == 1) {
+      minutesString = "0" + minutesString;
+    }
+    setDuration(hoursString + ":" + minutesString);
+  }, [data]);
   return (
     <Link
       className="StravaActivityButton"
@@ -21,11 +42,11 @@ function StravaActivity({ data }) {
           <div className="StatBar">
             <div className="Stat">
               <FontAwesomeIcon className="Icon" icon={faCalendarAlt} />
-              <p>{data.start_date_local.substring(1, 10)}</p>
+              <p>{dateString}</p>
             </div>
             <div className="Stat">
               <FontAwesomeIcon className="Icon" icon={faStopwatch} />
-              <p>{(data.moving_time / 60).toFixed(1) + " min"}</p>
+              <p>{duration}</p>
             </div>
             <div className="Stat">
               <FontAwesomeIcon className="Icon" icon={faFlag} />

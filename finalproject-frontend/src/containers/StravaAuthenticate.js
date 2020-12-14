@@ -14,11 +14,11 @@ function StravaAuthenticate() {
       )
       .then(function (response) {
         localStorage.setItem("stravaRefreshToken", response.data.refresh_token);
+        window.location = "/";
       })
       .catch(function (error) {
         console.warn("error", error);
       });
-    window.location = "/";
   }, []);
 
   return <div></div>;
