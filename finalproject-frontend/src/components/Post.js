@@ -21,7 +21,7 @@ function Post({ data }) {
     setLiked(!liked);
     setLikes(likes + increment);
     axios
-      .get("http://localhost:4000/like", {
+      .get("https://secure-ocean-28880.herokuapp.com/like", {
         params: { title: data.title, num: increment, email: data.email },
       })
       .catch(function (error) {

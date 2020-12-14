@@ -18,7 +18,7 @@ function PostForm({ userData, id, activitiesArray }) {
     const email = userData.email;
     axios
       .get(
-        `http://localhost:4000/create/submit?email=${email}&author=${author}&bike=${bike}&description=${description}&distance=${distance}&lat=${lat}&lng=${lng}&likes=${likes}&polyline=${polyline}&title=${title}`
+        `https://secure-ocean-28880.herokuapp.com/create/submit?email=${email}&author=${author}&bike=${bike}&description=${description}&distance=${distance}&lat=${lat}&lng=${lng}&likes=${likes}&polyline=${polyline}&title=${title}`
       )
       .catch(function (error) {
         console.warn("Error creating post", error);

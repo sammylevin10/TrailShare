@@ -10,7 +10,6 @@ const users = db.collection("users");
 // Accepts post id and number, which increments or decrements likes
 router.get("/", (req, res) => {
   const queryParams = req.query;
-  console.log(queryParams);
   const idFromTitle = queryParams.title.replace(/\s+/g, "-").toLowerCase();
   const increment = firebase.firestore.FieldValue.increment(queryParams.num);
   const postRef = posts.doc(idFromTitle);

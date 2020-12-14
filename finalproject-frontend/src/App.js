@@ -35,7 +35,7 @@ function App(props) {
   const [userData, setUserData] = useState({});
   const [location, setLocation] = useState(null);
   const [activities, setActivities] = useState([]);
-  const backendUrl = "http://localhost:4000";
+  const backendUrl = "https://secure-ocean-28880.herokuapp.com";
   // HEROKU DOMAIN: https://secure-ocean-28880.herokuapp.com
   // LOCALHOST: http://localhost:4000
 
