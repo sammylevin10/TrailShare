@@ -1,20 +1,46 @@
+/*-- COLOR VARIABLES --*/
+:root {
+  --mainDark: #218a48;
+  --mainMed: #2eb157;
+  --mainLight: #98ff98;
+  --backDark: #222222;
+  --backMed: #333333;
+  --textLight: #ffffff;
+  --textMed: #dddddd;
+  --textDark: #aaaaaa;
+}
+
 .App {
+  background-color: var(--backDark);
+  padding-bottom: 300px;
+  font-family: "Montserrat", sans-serif;
+  background-image: url("./images/background.png");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 1920px 1200px;
 }
 
 h1 {
+  color: var(--textLight);
+  font-weight: 800;
+  font-style: italic;
   font-size: 35px;
 }
 
 h2 {
+  color: var(--textLight);
+  font-weight: 800;
   margin-top: 10px;
   font-size: 30px;
 }
 
 h3 {
+  color: var(--textMed);
   font-size: 25px;
 }
 
 p {
+  color: var(--textMed);
   font-size: 20px;
 }
 
@@ -34,18 +60,28 @@ a {
 
 .Loading {
   width: 250px;
+  padding-bottom: 400px;
 }
 
 /*-- HEADER --*/
 
+FontAwesomeIcon {
+  color: var(--textMed);
+}
+
+.Accent {
+  color: var(--mainMed);
+}
+
 .HeaderContainer {
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px) brightness(90%) contrast(70%);
+  /* background-color: var(--backMed); */
   z-index: 100;
   position: fixed;
   width: 1920px;
   max-width: 100%;
   height: 80px;
-  box-shadow: 2px 0px 10px 2px #888888;
+  box-shadow: 2px 0px 10px 2px #000000;
   margin-bottom: 20px;
 }
 
@@ -72,9 +108,18 @@ header nav {
 
 header nav a {
   font-size: 35px;
-  color: black;
   display: block;
   margin: 10px;
+}
+
+.NavButton {
+  color: var(--textDark);
+  transition: all 0.3s ease-in-out;
+}
+
+.NavButton:hover {
+  color: var(--mainMed);
+  transform: scale(1.1);
 }
 
 .Content {
@@ -101,6 +146,7 @@ header nav a {
 
 .TrailParameters {
   font-size: 30px;
+  color: var(--textLight);
   margin: 20px 0 30px 0;
   padding: 0;
 }
@@ -114,21 +160,29 @@ header nav a {
 }
 
 select {
-  border: 1px solid black;
-  background-color: white;
+  transition: all 0.2s ease-in-out;
+  border: none;
+  color: var(--textLight);
+  font-family: Montserrat;
+  background-color: var(--backMed);
   border-radius: 10px;
   font-size: 25px;
   padding: 5px 5px 7px 5px;
 }
 
+select:hover {
+  transform: scale(1.05);
+}
+
 .Post {
+  background-color: var(--backMed);
+  box-shadow: 2px 0px 10px 2px #000000;
   max-width: 1000px;
   height: 400px;
   margin: 0 auto;
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 15px;
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
 }
@@ -170,6 +224,12 @@ select {
 
 .Stat .Icon {
   font-size: 25px;
+  color: var(--textLight);
+}
+
+.Stat .IconGreen {
+  font-size: 25px;
+  color: var(--mainMed);
 }
 
 /*--- User Profile ---*/
@@ -191,7 +251,8 @@ select {
 }
 
 button {
-  background-color: #c2c2c2;
+  background-color: var(--mainMed);
+  font-family: Montserrat;
   border: none;
   padding: 10px 20px;
   text-align: center;
@@ -215,6 +276,7 @@ button:hover {
 }
 
 .StravaActivity {
+  background-color: var(--backMed);
   max-width: 1000px;
   /* height: 40px; */
   margin: 0 auto;
@@ -224,10 +286,16 @@ button:hover {
   border: 1px solid black;
   display: flex;
   flex-direction: row;
+  transition: all 0.2s ease-in-out;
+}
+
+.StravaActivity * {
+  color: var(--textMed);
 }
 
 .StravaActivity:hover {
-  background-color: #c2c2c2;
+  transform: scale(1.02);
+  background-color: var(--mainDark);
 }
 
 .StravaActivityButton {
@@ -268,7 +336,8 @@ button:hover {
 .ComposePost {
   max-width: 1000px;
   margin: 0 auto;
-  padding: 0 20px 0 20px;
+  padding: 0 20px 20px;
+  margin-bottom: 300px;
 }
 
 form {
@@ -277,36 +346,99 @@ form {
 }
 
 form input {
+  transition: all 0.2s ease-in-out;
+  font-family: Montserrat;
+  color: var(--textLight);
+  background-color: var(--backMed);
   border: 1px solid black;
-  border-radius: 20px;
+  border-radius: 15px;
   font-size: 25px;
   margin-bottom: 20px;
   padding: 20px;
 }
 
+form input:hover {
+  transform: scale(1.05);
+}
+
 form textarea {
+  font-family: Montserrat;
+  color: var(--textLight);
+  background-color: var(--backMed);
   resize: none;
   height: 150px;
   line-height: 1.5;
   border: 1px solid black;
-  border-radius: 20px;
+  border-radius: 15px;
   font-size: 25px;
   margin-bottom: 20px;
   padding: 20px;
-  font-family: BlinkMacSystemFont;
 }
 
 form button {
   text-align: center;
   width: 250px;
+  transition: all 0.2s ease-in-out;
 }
 
-/*--- Login ---*/
+form button:hover {
+  background-color: var(--mainLight);
+  transform: scale(1.05);
+}
+
+/*--- LOGIN ---*/
 
 .Login {
+  background-image: url("./images/trees.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 1920px 1200px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  height: 1080px;
+  width: 100%;
+  margin: -100px 0 0 0;
+}
+
+.LoginWrapper {
+  backdrop-filter: blur(10px) brightness(90%) contrast(70%);
+  width: 500px;
+  height: 500px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 10px 2px #222222;
+  /* background-color: var(--backMed); */
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 150px 20px 0 20px;
   padding: 0 20px 0 20px;
+}
+
+.LoginWrapper h2 {
+  padding-top: 5px;
+  text-align: center;
+}
+
+.LightInput {
+  color: var(--backDark);
+  background-color: var(--textMed);
+  width: 400px;
+  margin: 0 30px 30px 30px;
+  border-radius: 15px;
+}
+
+.CenterWrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.RegularLink {
+  color: var(--textLight);
+  font-size: 20px;
+  text-align: center;
+  font-style: italic;
 }
 
 .PseudoButton {
@@ -324,7 +456,34 @@ form button {
 
 /*--- Create Account ---*/
 .CreateAccount {
+  background-image: url("./images/trees.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 1920px 1200px;
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: black;
+  height: 1080px;
+  width: 100%;
+  margin: -100px 0 0 0;
+}
+
+.CreateAccountWrapper {
+  backdrop-filter: blur(10px) brightness(90%) contrast(70%);
+  width: 500px;
+  height: 600px;
+  border-radius: 15px;
+  box-shadow: 3px 3px 10px 2px #222222;
+  /* background-color: var(--backMed); */
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 150px 20px 0 20px;
   padding: 0 20px 0 20px;
+}
+
+.CreateAccountWrapper h2 {
+  text-align: center;
+  font-weight: 400;
+  padding-top: 5px;
 }

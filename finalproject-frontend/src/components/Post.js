@@ -43,7 +43,7 @@ function Post({ data }) {
     let nonGeodesicPolyline = new maps.Polyline({
       path: encodedPolyline,
       geodesic: false,
-      strokeColor: "#ff8400",
+      strokeColor: "#27c659",
       strokeOpacity: 1,
       strokeWeight: 4,
     });
@@ -90,7 +90,7 @@ function Post({ data }) {
           {liked ? (
             <FontAwesomeIcon
               onClick={likeUnlike}
-              className="Icon"
+              className="IconGreen"
               icon={faHeart}
             />
           ) : (

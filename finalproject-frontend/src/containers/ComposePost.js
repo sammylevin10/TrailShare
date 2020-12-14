@@ -7,7 +7,7 @@ function ComposePost({ userData, activitiesArray }) {
 
   return (
     <div className="ComposePost">
-      <h2>Share "Strava Activity" with your locality</h2>
+      <h2>Share this trail with your locality</h2>
       <PostForm userData={userData} id={id} activitiesArray={activitiesArray} />
     </div>
   );

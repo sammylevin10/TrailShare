@@ -6,16 +6,18 @@ function Header() {
   return (
     <div className="HeaderContainer">
       <header>
-        <h1>TrailShare</h1>
+        <h1>
+          Trail<span className="Accent">Share</span>
+        </h1>
         <nav>
           <a href="/">
-            <FontAwesomeIcon icon={faHome} />
+            <FontAwesomeIcon icon={faHome} className="NavButton" />
           </a>
           <a href="/select-activity">
-            <FontAwesomeIcon icon={faEdit} />
+            <FontAwesomeIcon icon={faEdit} className="NavButton" />
           </a>
           <a href="/user-profile">
-            <FontAwesomeIcon icon={faUser} />
+            <FontAwesomeIcon icon={faUser} className="NavButton" />
           </a>
         </nav>
       </header>
