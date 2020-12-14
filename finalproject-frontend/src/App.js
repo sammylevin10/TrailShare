@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
@@ -13,6 +14,7 @@ import CreateAccount from "./containers/CreateAccount";
 import Home from "./containers/Home";
 import Login from "./containers/Login";
 import SelectActivity from "./containers/SelectActivity";
+import StravaAuthenticate from "./containers/StravaAuthenticate";
 import UserProfile from "./containers/UserProfile";
 // Components
 import Header from "./components/Header";
@@ -26,13 +28,18 @@ function App(props) {
   //Strava Credentials
   let clientID = process.env.REACT_APP_STRAVA_CLIENT_ID;
   let clientSecret = process.env.REACT_APP_STRAVA_CLIENT_SECRET;
+  let redirectURI = "http://localhost:3000/strava-authenticate";
 
   // refresh token and call address
-  const refreshToken = process.env.REACT_APP_STRAVA_REFRESH_TOKEN;
+  const refreshToken = localStorage.getItem("stravaRefreshToken");
+  // const refreshToken = "8927a886e27140faaccdd406f809aad09a839612";
+  // const refreshToken = "05009d90b803ab0aa3a642a4fcb9cf218e1f1dd0";
+  // const refreshToken = process.env.REACT_APP_STRAVA_REFRESH_TOKEN;
+  // const code = JSON.parse(localStorage.getItem("stravaAuthentication"));
   const callRefresh = `https://www.strava.com/oauth/token?client_id=${clientID}&client_secret=${clientSecret}&refresh_token=${refreshToken}&grant_type=refresh_token`;
 
   // endpoint for read-all activities. temporary token is added in getActivities()
-  const callActivities = `https://www.strava.com/api/v3/athlete/activities?access_token=`;
+  const callActivities = `https://www.strava.com/api/v3/athlete/activities?per_page=50&access_token=`;
 
   // Use refresh token to get current access token
   useEffect(() => {
@@ -40,12 +47,16 @@ function App(props) {
       method: "POST",
     })
       .then((res) => res.json())
-      .then((result) => getActivities(result.access_token));
+      .then(function (result) {
+        console.log("Refresh token: ", refreshToken);
+        console.log("Access token: ", result.access_token);
+        getActivities(result.access_token);
+      });
+    // .then((result) => getActivities(result.access_token));
   }, [callRefresh]);
 
   // use current access token to call all activities
   function getActivities(access) {
-    // console.log(callActivities + access)
     fetch(callActivities + access)
       .then((res) => res.json())
       .then(
@@ -55,18 +66,12 @@ function App(props) {
       .catch((e) => console.log(e));
   }
 
-  function showActivities() {
-    if (isLoading) return <>LOADING</>;
-    if (!isLoading) {
-      // console.log(activities);
-      // return activities.length;
-    }
-  }
-
-  // Uncomment this line to console log the last 30 activities
-  showActivities();
-
   // STRAVA TEST CODE END
+
+  function stravaAuthenticate() {
+    let authorizeURL = `http://www.strava.com/oauth/authorize?client_id=${process.env.REACT_APP_STRAVA_CLIENT_ID}&response_type=code&redirect_uri=${redirectURI}&approval_prompt=force&scope=activity:read_all`;
+    window.location = authorizeURL;
+  }
 
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -162,14 +167,15 @@ function App(props) {
       .then(function (response) {
         console.log("Valid account created for", email, response);
         setLoggedIn(true);
+        const db = firebase.firestore();
+        const users = db.collection("users");
+        users.doc(email).set(object);
+        stravaAuthenticate();
       })
       .catch(function (error) {
         console.log("Account Creation Failed", error);
         alert("Account Creation Failed");
       });
-    const db = firebase.firestore();
-    const users = db.collection("users");
-    users.doc(email).set(object);
   }
 
   // Function for retrieving user data once authorized
@@ -185,6 +191,7 @@ function App(props) {
           console.log("error", error);
         });
     }
+    console.log("User is logged in ", loggedIn);
   }, [userAuthInfo]);
 
   useEffect(() => {
@@ -197,8 +204,6 @@ function App(props) {
         console.log("error", error);
       });
   }, []);
-
-  // FIGURE OUT HOW TO DO GEOLOCATION AND PASS TO HOME
 
   useEffect(() => {
     if (props) {
@@ -258,6 +263,9 @@ function App(props) {
             ) : (
               <Redirect to="/login" />
             )}
+          </Route>
+          <Route path="/strava-authenticate">
+            <StravaAuthenticate />
           </Route>
           <Route exact path="/user-profile">
             {/* If someone is logged in, take them to user profile */}

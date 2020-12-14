@@ -17,14 +17,12 @@ function Home({ postsArray, geolocation }) {
   }, [geolocation]);
 
   function withinRadius(lat1, lng1, radius) {
-    console.log("withinRadius received ", location);
     let lat2 = location.latitude;
     let lng2 = location.longitude;
     let factor1 = Math.pow(lat2 - lat1, 2);
     let factor2 = Math.pow(lng2 - lng1, 2);
     let distanceInDegrees = Math.sqrt(factor1 + factor2);
     let distanceInKm = distanceInDegrees * 111;
-    console.log(distanceInKm, radius, distanceInKm < radius);
     if (distanceInKm < radius) {
       return true;
     } else {
