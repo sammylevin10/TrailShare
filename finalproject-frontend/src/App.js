@@ -17,6 +17,7 @@ import UserProfile from "./containers/UserProfile";
 import { Ellipsis } from "react-spinners-css";
 // Components
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 // Images
 // import background from "/public/background.png";
 
@@ -231,7 +232,10 @@ function App(props) {
           </Route>
           <Route exact path="/">
             {/* Regardless of whether a user is logged in, display posts */}
-            <Home postsArray={postData} geolocation={location} />
+            <>
+              <Home postsArray={postData} geolocation={location} />
+              <Footer />
+            </>
           </Route>
           <Route exact path="/login">
             {/* If someone is logged in, redirect them to home */}
@@ -246,7 +250,10 @@ function App(props) {
             {/* If someone is logged in, take them to select activity */}
             {/* If someone is not logged in, redirect them to login */}
             {loggedIn ? (
-              <SelectActivity activitiesArray={activities} />
+              <>
+                <SelectActivity activitiesArray={activities} />
+                <Footer />
+              </>
             ) : (
               <Redirect to="/login" />
             )}
@@ -258,11 +265,14 @@ function App(props) {
             {/* If someone is logged in, take them to user profile */}
             {/* If someone is not logged in, redirect them to login */}
             {loggedIn ? (
-              <UserProfile
-                LogoutFunction={LogoutFunction}
-                userData={userData}
-                postsArray={postData}
-              />
+              <>
+                <UserProfile
+                  LogoutFunction={LogoutFunction}
+                  userData={userData}
+                  postsArray={postData}
+                />
+                <Footer />
+              </>
             ) : (
               <Redirect to="/login" />
             )}
