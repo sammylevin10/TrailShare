@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Post from "../components/Post";
+import { Ellipsis } from "react-spinners-css";
 
 function Home({ postsArray, geolocation }) {
   const [bike, setBike] = useState(true);
@@ -96,10 +97,7 @@ function Home({ postsArray, geolocation }) {
         <h2 className="FixedTitle">Finding trails near you...</h2>
         <div className="HomeContainer">
           <div className="LoadingWrapper">
-            <img
-              className="Loading"
-              src="https://64.media.tumblr.com/5d20cb9d224eb97fab488a8ca5b38d33/tumblr_nsocqzECoE1sjmeczo1_540.gifv"
-            ></img>
+            <Ellipsis color="#2eb157" size={100} />
           </div>
         </div>
       </div>

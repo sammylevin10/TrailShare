@@ -6,6 +6,7 @@ import "firebase/auth";
 import axios from "axios";
 import "./App.css";
 import { geolocated } from "react-geolocated";
+import { Ellipsis } from "react-spinners-css";
 // Pages
 import ComposePost from "./containers/ComposePost";
 import CreateAccount from "./containers/CreateAccount";
@@ -16,6 +17,7 @@ import StravaAuthenticate from "./containers/StravaAuthenticate";
 import UserProfile from "./containers/UserProfile";
 // Components
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 // Images
 // import background from "/public/background.png";
 
@@ -192,13 +194,14 @@ function App(props) {
 
   if (loading) {
     return (
-      <div>
+      <div className="App">
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+          rel="stylesheet"
+        ></link>
         <Header />
         <div className="LoadingWrapper">
-          <img
-            className="Loading"
-            src="https://64.media.tumblr.com/5d20cb9d224eb97fab488a8ca5b38d33/tumblr_nsocqzECoE1sjmeczo1_540.gifv"
-          ></img>
+          <Ellipsis color="#2eb157" size={100} />
         </div>
       </div>
     );
@@ -214,7 +217,10 @@ function App(props) {
       <div className="Content">
         <Router>
           <Route exact path="/compose-post/:id">
-            <ComposePost userData={userData} activitiesArray={activities} />
+            <>
+              <ComposePost userData={userData} activitiesArray={activities} />
+              <Footer />
+            </>
           </Route>
           <Route exact path="/create-account">
             {/* If someone is logged in, redirect them to home */}
@@ -222,12 +228,17 @@ function App(props) {
             {loggedIn ? (
               <Redirect to="/" />
             ) : (
-              <CreateAccount CreateAccountFunction={CreateAccountFunction} />
+              <>
+                <CreateAccount CreateAccountFunction={CreateAccountFunction} />
+              </>
             )}
           </Route>
           <Route exact path="/">
             {/* Regardless of whether a user is logged in, display posts */}
-            <Home postsArray={postData} geolocation={location} />
+            <>
+              <Home postsArray={postData} geolocation={location} />
+              <Footer />
+            </>
           </Route>
           <Route exact path="/login">
             {/* If someone is logged in, redirect them to home */}
@@ -235,16 +246,21 @@ function App(props) {
             {loggedIn ? (
               <Redirect to="/" />
             ) : (
-              <Login LoginFunction={LoginFunction} />
+              <>
+                <Login LoginFunction={LoginFunction} />
+              </>
             )}
           </Route>
           <Route exact path="/select-activity">
             {/* If someone is logged in, take them to select activity */}
             {/* If someone is not logged in, redirect them to login */}
             {loggedIn ? (
-              <SelectActivity activitiesArray={activities} />
+              <>
+                <SelectActivity activitiesArray={activities} />
+                <Footer />
+              </>
             ) : (
-              <Redirect to="/login" />
+              <Redirect to="/create-account" />
             )}
           </Route>
           <Route path="/strava-authenticate">
@@ -254,13 +270,16 @@ function App(props) {
             {/* If someone is logged in, take them to user profile */}
             {/* If someone is not logged in, redirect them to login */}
             {loggedIn ? (
-              <UserProfile
-                LogoutFunction={LogoutFunction}
-                userData={userData}
-                postsArray={postData}
-              />
+              <>
+                <UserProfile
+                  LogoutFunction={LogoutFunction}
+                  userData={userData}
+                  postsArray={postData}
+                />
+                <Footer />
+              </>
             ) : (
-              <Redirect to="/login" />
+              <Redirect to="/create-account" />
             )}
           </Route>
         </Router>

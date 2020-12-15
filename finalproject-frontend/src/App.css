@@ -12,12 +12,13 @@
 
 .App {
   background-color: var(--backDark);
-  padding-bottom: 300px;
+  padding-bottom: 0px;
   font-family: "Montserrat", sans-serif;
   background-image: url("./images/background.png");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: 1920px 1200px;
+  min-height: 1080px;
 }
 
 h1 {
@@ -51,6 +52,7 @@ a {
 
 /*-- LOADING --*/
 .LoadingWrapper {
+  min-height: 1080px;
   max-width: 1000px;
   margin: 0 auto;
   display: flex;
@@ -131,6 +133,7 @@ header nav a {
 
 .Home {
   max-width: 1000px;
+  min-height: 900px;
   padding: 0 20px 0 20px;
   margin: 0 auto;
 }
@@ -146,6 +149,7 @@ header nav a {
 
 .TrailParameters {
   font-size: 30px;
+  line-height: 2;
   color: var(--textLight);
   margin: 20px 0 30px 0;
   padding: 0;
@@ -239,6 +243,7 @@ select:hover {
 }
 
 .UserProfile {
+  min-height: 900px;
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 20px 0 20px;
@@ -271,11 +276,13 @@ button:hover {
 
 .SelectActivity {
   max-width: 1000px;
+  min-height: 900px;
   margin: 0 auto;
   padding: 0 20px 0 20px;
 }
 
 .StravaActivity {
+  box-shadow: 1px 1px 5px 1px #111111;
   background-color: var(--backMed);
   max-width: 1000px;
   /* height: 40px; */
@@ -283,7 +290,6 @@ button:hover {
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 15px;
-  border: 1px solid black;
   display: flex;
   flex-direction: row;
   transition: all 0.2s ease-in-out;
@@ -486,4 +492,144 @@ form button:hover {
   text-align: center;
   font-weight: 400;
   padding-top: 5px;
+}
+
+/*--- FOOTER ---*/
+
+Footer {
+  position: relative;
+  bottom: 0;
+  margin-top: 50px;
+  background-color: var(--backMed);
+  border: 1px solid var(--backMed);
+  box-shadow: 0px 1px 10px 2px #000000;
+  color: var(--textMed);
+}
+
+.Footer-Contents {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 auto;
+  margin-bottom: 0px;
+  max-width: 1000px;
+  padding: 0 20px;
+}
+
+/*--- MOBILE BREAKPOINTS ---*/
+@media screen and (max-width: 400px) {
+  .HeaderContainer {
+    height: 70px;
+  }
+  header h1 {
+    font-size: 30px;
+  }
+  header nav a {
+    font-size: 27px;
+  }
+  .Content {
+    padding-top: 60px;
+  }
+  .TrailParameters {
+    font-size: 20px;
+    margin-top: 30px;
+  }
+  select {
+    font-size: 20px;
+    padding: 3px 0px 4px 3px;
+  }
+  h2 {
+    font-size: 25px;
+  }
+  .Post {
+    flex-direction: column;
+    padding: 15px;
+    min-height: 400px;
+    max-height: 600px;
+    height: auto;
+  }
+  .Map-Container {
+    height: 250px;
+  }
+  .Post .Column2 {
+    margin-top: 10px;
+    padding-left: 0;
+    margin-bottom: -10px;
+  }
+  .Post .Column2 h2,
+  .Post .Column2 h3 {
+    margin: 15px 0 0 0;
+  }
+
+  .Footer-Contents {
+    flex-direction: row-reverse;
+  }
+  .Footer-Contents p {
+    font-size: 15px;
+  }
+  .Footer-Contents p:nth-of-type(1) {
+    display: none;
+  }
+  .SelectActivity {
+    margin-top: 30px;
+  }
+  .StravaActivity {
+    min-height: 65px;
+    height: auto;
+    flex-direction: column;
+  }
+  .StravaActivity .Column2 * {
+    font-size: 15px;
+  }
+  .StravaActivity .Column2 .StatBar div {
+    margin-right: 20px;
+    margin-left: 0;
+  }
+  .StravaActivity .Column2 {
+    margin-top: 10px;
+  }
+  .StatBar {
+    width: 100%;
+  }
+  .StravaActivity .StatBar .Stat:nth-of-type(3) p {
+    width: 60px;
+  }
+  .UserProfile {
+    margin-top: 20px;
+  }
+  .UserProfile .StatBar .Stat {
+    margin: 0 auto;
+  }
+  .UserProfile .StatBar * {
+    font-size: 20px;
+  }
+  button {
+    font-size: 20px;
+  }
+  .CreateAccountWrapper,
+  .LoginWrapper {
+    width: 90%;
+    margin: 0;
+    padding: 0;
+    margin-top: 200px;
+    height: auto;
+  }
+  .CreateAccountWrapper h2,
+  .LoginWrapper h2 {
+    font-size: 20px;
+  }
+  .LightInput {
+    font-size: 20px;
+    padding: 10px;
+    margin: 0 20px 20px 20px;
+    width: auto;
+  }
+  form button {
+    width: auto;
+  }
+  .RegularLink {
+    width: 80%;
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
 }
