@@ -6,6 +6,7 @@ import Ellipsis from "react-spinners-css";
 
 function UserProfile({ LogoutFunction, userData, postsArray }) {
   let postsDisplayed = 0;
+  // LogoutFunction();
 
   if (postsArray && userData) {
     return (

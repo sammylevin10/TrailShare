@@ -6,7 +6,6 @@ import "firebase/auth";
 import axios from "axios";
 import "./App.css";
 import { geolocated } from "react-geolocated";
-import { Ellipsis } from "react-spinners-css";
 // Pages
 import ComposePost from "./containers/ComposePost";
 import CreateAccount from "./containers/CreateAccount";
@@ -15,9 +14,9 @@ import Login from "./containers/Login";
 import SelectActivity from "./containers/SelectActivity";
 import StravaAuthenticate from "./containers/StravaAuthenticate";
 import UserProfile from "./containers/UserProfile";
+import { Ellipsis } from "react-spinners-css";
 // Components
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 // Images
 // import background from "/public/background.png";
 
@@ -200,8 +199,10 @@ function App(props) {
           rel="stylesheet"
         ></link>
         <Header />
-        <div className="LoadingWrapper">
-          <Ellipsis color="#2eb157" size={100} />
+        <div className="Home">
+          <div className="LoadingWrapper">
+            <Ellipsis color="#2eb157" size={100} />
+          </div>
         </div>
       </div>
     );
@@ -217,10 +218,7 @@ function App(props) {
       <div className="Content">
         <Router>
           <Route exact path="/compose-post/:id">
-            <>
-              <ComposePost userData={userData} activitiesArray={activities} />
-              <Footer />
-            </>
+            <ComposePost userData={userData} activitiesArray={activities} />
           </Route>
           <Route exact path="/create-account">
             {/* If someone is logged in, redirect them to home */}
@@ -228,17 +226,12 @@ function App(props) {
             {loggedIn ? (
               <Redirect to="/" />
             ) : (
-              <>
-                <CreateAccount CreateAccountFunction={CreateAccountFunction} />
-              </>
+              <CreateAccount CreateAccountFunction={CreateAccountFunction} />
             )}
           </Route>
           <Route exact path="/">
             {/* Regardless of whether a user is logged in, display posts */}
-            <>
-              <Home postsArray={postData} geolocation={location} />
-              <Footer />
-            </>
+            <Home postsArray={postData} geolocation={location} />
           </Route>
           <Route exact path="/login">
             {/* If someone is logged in, redirect them to home */}
@@ -246,21 +239,16 @@ function App(props) {
             {loggedIn ? (
               <Redirect to="/" />
             ) : (
-              <>
-                <Login LoginFunction={LoginFunction} />
-              </>
+              <Login LoginFunction={LoginFunction} />
             )}
           </Route>
           <Route exact path="/select-activity">
             {/* If someone is logged in, take them to select activity */}
             {/* If someone is not logged in, redirect them to login */}
             {loggedIn ? (
-              <>
-                <SelectActivity activitiesArray={activities} />
-                <Footer />
-              </>
+              <SelectActivity activitiesArray={activities} />
             ) : (
-              <Redirect to="/create-account" />
+              <Redirect to="/login" />
             )}
           </Route>
           <Route path="/strava-authenticate">
@@ -270,16 +258,13 @@ function App(props) {
             {/* If someone is logged in, take them to user profile */}
             {/* If someone is not logged in, redirect them to login */}
             {loggedIn ? (
-              <>
-                <UserProfile
-                  LogoutFunction={LogoutFunction}
-                  userData={userData}
-                  postsArray={postData}
-                />
-                <Footer />
-              </>
+              <UserProfile
+                LogoutFunction={LogoutFunction}
+                userData={userData}
+                postsArray={postData}
+              />
             ) : (
-              <Redirect to="/create-account" />
+              <Redirect to="/login" />
             )}
           </Route>
         </Router>
