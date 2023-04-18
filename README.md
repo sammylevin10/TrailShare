@@ -6,6 +6,8 @@ One of the most rewarding ways to experience a new environment is on the saddle 
 
 [TrailShare](http://sammylevin.com/trailshare) is a platform for discovering, saving, and navigating a neighborhood's best running and cycling trails.
 
+The image below redirects you to a screen recording of this full stack demo in action.
+
 [![Full Stack Demo](https://img.youtube.com/vi/2kM1xGDXZjM/0.jpg)](https://www.youtube.com/watch?v=2kM1xGDXZjM)
 
 ## Available Scripts
