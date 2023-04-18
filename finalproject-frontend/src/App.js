@@ -117,6 +117,7 @@ function App(props) {
 
   // Function for logging out
   function LogoutFunction(e) {
+    console.warn("Logging out");
     firebase
       .auth()
       .signOut()
@@ -149,8 +150,16 @@ function App(props) {
         setLoggedIn(true);
         const db = firebase.firestore();
         const users = db.collection("users");
-        users.doc(email).set(object);
-        stravaAuthenticate();
+        users
+          .doc(email)
+          .set(object)
+          .then(function () {
+            stravaAuthenticate();
+          })
+          .catch(function (error) {
+            console.warn("Failed to create user document", error);
+            alert("Failed to create user document: " + error.message);
+          });
       })
       .catch(function (error) {
         console.warn("Account Creation Failed", error);

@@ -8,6 +8,7 @@ function StravaAuthenticate() {
     const parsed = queryString.parse(url);
     localStorage.setItem("stravaAuthentication", JSON.stringify(parsed));
     const received = JSON.parse(localStorage.getItem("stravaAuthentication"));
+    console.log(received);
     axios
       .post(
         `https://www.strava.com/api/v3/oauth/token?client_id=${process.env.REACT_APP_STRAVA_CLIENT_ID}&client_secret=${process.env.REACT_APP_STRAVA_CLIENT_SECRET}&code=${received.code}&grant_type=authorization_code`

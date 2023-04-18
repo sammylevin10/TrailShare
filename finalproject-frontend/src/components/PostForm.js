@@ -10,16 +10,30 @@ function PostForm({ userData, id, activitiesArray }) {
     const bike = activity.type == "Ride";
     const description = e.currentTarget.description.value;
     const distance = activity.distance;
-    const lat = activity.start_latitude;
-    const lng = activity.start_longitude;
+    const lat = activity.start_latlng[0];
+    const lng = activity.start_latlng[1];
     const likes = 0;
     const polyline = activity.map.summary_polyline;
     const title = e.currentTarget.title.value;
     const email = userData.email;
     axios
-      .get(
-        `localhost:4000/create/submit?email=${email}&author=${author}&bike=${bike}&description=${description}&distance=${distance}&lat=${lat}&lng=${lng}&likes=${likes}&polyline=${polyline}&title=${title}`
-      )
+      .get("http://localhost:4000/create/submit", {
+        params: {
+          email: email,
+          author: author,
+          bike: bike,
+          description: description,
+          distance: distance,
+          lat: lat,
+          lng: lng,
+          likes: likes,
+          polyline: polyline,
+          title: title,
+        },
+      })
+      // .get(
+      //   `http://localhost:4000/create/submit?email=${email}&author=${author}&bike=${bike}&description=${description}&distance=${distance}&lat=${lat}&lng=${lng}&likes=${likes}&polyline=${polyline}&title=${title}`
+      // )
       .catch(function (error) {
         console.warn("Error creating post", error);
       });

@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer className="Footer">
       <div className="Footer-Contents">
-        <p>NYU IDM Dynamic Web Applications</p>
+        <p>Made with ♡</p>
         <p>©2023 Sammy Levin</p>
       </div>
     </footer>

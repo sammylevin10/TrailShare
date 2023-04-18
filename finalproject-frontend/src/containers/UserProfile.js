@@ -46,6 +46,7 @@ function UserProfile({ LogoutFunction, userData, postsArray }) {
       </div>
     );
   } else {
+    LogoutFunction();
     return (
       <div className="LoadingWrapper">
         <Ellipsis color="#2eb157" size={100} />
